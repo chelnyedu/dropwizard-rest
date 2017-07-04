@@ -1,0 +1,2 @@
+# dropwizard-rest
+Dropwizard application
