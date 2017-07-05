@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
 
-public class ApplicationConfiguration extends Configuration {
+public class PhonebookConfiguration extends Configuration {
 	@JsonProperty
 	@NotEmpty
 	private String message;
