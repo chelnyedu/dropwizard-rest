@@ -4,16 +4,24 @@ jdk:
 - oraclejdk8
 before_install:
 - ulimit -c unlimited -S
+- echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+
 after_success:
 - bash .travis_after_success.sh
 cache:
   directories:
   - "$HOME/.m2"
 addons:
-  apt:
-    packages:
-    - oracle-java8-installer
+  coverity_scan:
+    project:
+      name: chelnyedu/dropwizard-rest
+      description: Build submitted via Travis CI
+    notification_email: asaushkin@gmail.com
+    build_command_prepend: mvn clean
+    build_command: mvn -DskipTests=true compile
+    branch_pattern: coverity_scan
 env:
   global:
   - JAVA_OPTS: "'-Xms512m -Xmx2g'"
   - secure: f8UAvGBRY8XrOvyjQPomTi6Q7xWAAn1UOIsrCOX5vlwkNf9iYlyxFTiNbemceclJj904Y+eyYRbH4T9In9BNhDUAumYa9GzqpOdtSMDn3KOYFbInP1SjliZJFDzlbk+cxh5natkbU7l5Md7FfrXEPVvPEBALCyph3oUb1S17vgh7Rm3et34VAm3+kYuUnzQdHd5H6G33rb5oVLIIUB7wRNAqlli0Dn9VsCsbn2W+ZyznYwpfzyjiu4Qxk0DReebyNEhuQWdZnCvQnSJpBb8FOIDPX9lYwVA4T4TPKazAvcwV1YwtBkj/4br2a43EClyFSw4g+WBaY3cIffIfrnV2hGftD9jbTDAJ1KKaBJGJ22ETbTi0E0yOO+pwgBmSc79fCN4y4yv0Y05Kig+hD/NGgB0KGPv6rZRpGQ+u01Y5JmhMBK/ouHpJ2V+D4MafnJTjnPl5rfwhLR9a0d8rUHCOrEPotGUvjI+fUYrk7GnNrwHOdvFHBBRv6mcCws1c4VaFIghf5o8OY3zExUAz5LUuRgw4/yxHbKvpC/QynKdqUABJhS1/VR45czhxydYWqp8LnjqRxiXDawPgqeUNPodz1I5q+t7H4s8IkH1wNlmmd0hm9t3WTKEwU50kACTqt34nD/I4Rjer1BbJUnX00+k5nBpJa9nEF9oNtwaykO2niEU=
+  - secure: WW3/mFh6zR4jCqFiAUEvmJzxZqpC9OHdInj9GZobgb/YeiMMxN6yUQv0rTJkuZ98bolyursV/pCj3BBOqBd5e+7KcHOXjuOsh1dhAyBR+Afmop6/BzSV6X7OgSuur/xlmiTvWgi3KToYKLI1niN6MyFUKGdBIBokMFSsIW8qB1p8TkGuyner92HOg8FL+r6L46x7m0AzlWUw1lVA6I2Vr46clvoKeL6OPy8B6fdG2EVreHgo+U6VFCXNHVJkrNziAYDmfGS1Qut+Gfp796x3B5RZKT7LKGgY/PfzLkL0EJAAKHah8sTPXIgFqGDWqtBLrt6vJGT655yGXL8yBnc04GN9jOnTH8dRInZmy5Bm1k4CBc6fvQk9BYQDlBnMlePsjmuIKa/rSZCQ2XapEAH2boIHfkaPWSkxVoaUcgNBhD6VqNyZyMI9ZHKoqdu3vk6v11x/UlZ+GQJD/QP0mDF4dUEPHvVLLKy+1LzPXbI+ZWlcMpLPlZj4Z/Kw6o0XL/QQciXPSTnMEOCTrgh9rx0YpvGcdlU1Sl20VhiKc7XxXHvyUDQAtgjuLaV30Ykw0YoPCX1Uz1CGZYJj50lEdld4khC8jAi/3u4Xf7iE0xJ38tyeW0Tu9t5YOY0mVwbtZ66nWy+rhzW2fO4OFAT2acLtvtYZRHaa71oRC2qxNE/9wjg=
