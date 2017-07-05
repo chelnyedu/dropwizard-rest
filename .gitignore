@@ -22,6 +22,6 @@
 hs_err_pid*
 
 /target/
-
-*~
->>>>>>> refs/remotes/origin/master
+.classpath
+/.settings/
+.project
