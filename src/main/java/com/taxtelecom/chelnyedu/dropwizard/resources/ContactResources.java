@@ -31,6 +31,6 @@ public class ContactResources {
     @Path("/{id}")
     public Response updateContact(@PathParam("id") int id, @FormParam("name")
             String name, @FormParam("phone") String phone ){
-        return Response.ok("contact_id: " + id +", name: \""+ name + "\", phone: \" "+phone + "\" }").build();
+        return Response.ok("{contact_id: " + id +", name: \""+ name + "\", phone: \" "+phone + "\" }").build();
     }
 }
