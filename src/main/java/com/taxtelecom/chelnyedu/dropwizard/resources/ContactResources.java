@@ -28,8 +28,7 @@ public class ContactResources {
 
     @PUT
     @Path("/{id}")
-    public Response updateContact(@PathParam("id") int id, @FormParam("firstName")
-            String firstName, @FormParam("lastName") String lastName, @FormParam("phone") String phone ){
-        return Response.ok(new Contact(id, firstName, lastName, phone)).build();
+    public Response updateContact(@PathParam("id") int id, Contact contact){
+        return Response.ok(new Contact(id, contact.getFirstName(), contact.getLastName(), contact.getPhone())).build();
     }
 }
