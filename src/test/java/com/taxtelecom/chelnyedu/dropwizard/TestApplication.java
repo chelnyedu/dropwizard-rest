@@ -10,6 +10,8 @@ import com.taxtelecom.chelnyedu.dropwizard.resources.ContactResources;
  */
 public class TestApplication {
     private Contact contactForTest = new Contact(0, "John", "Doe", "+123456789");
+    private Contact emptyContact = new Contact();
+    private Contact contact = new Contact(0, null, null, null);
 
     @Test
     public void checkContact(){
@@ -20,6 +22,14 @@ public class TestApplication {
         assertThat(contactForTest.getFirstName()).isEqualTo(con.getFirstName());
         assertThat(contactForTest.getLastName()).isEqualTo(con.getLastName());
         assertThat(contactForTest.getPhone()).isEqualTo(con.getPhone());
+        assertThat(contactForTest.getId()).isEqualTo(con.getId());
+    }
 
+    @Test
+    public void checkEmpty(){
+        assertThat(emptyContact.getFirstName()).isEqualTo(contact.getFirstName());
+        assertThat(emptyContact.getLastName()).isEqualTo(contact.getLastName());
+        assertThat(emptyContact.getPhone()).isEqualTo(contact.getPhone());
+        assertThat(emptyContact.getId()).isEqualTo(contact.getId());
     }
 }
