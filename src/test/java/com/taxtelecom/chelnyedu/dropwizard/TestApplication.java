@@ -15,7 +15,7 @@ import com.taxtelecom.chelnyedu.dropwizard.resources.ContactResources;
 /**
  * Created by sagel on 06.07.17.
  */
-
+/*
 public class TestApplication {
     private Contact contactForTest = new Contact(0, "John", "Doe", "+123456789");
     private Contact emptyContact = new Contact();
@@ -31,7 +31,7 @@ public class TestApplication {
     public void checkResponse(){
         ClientResponse response = contactResource.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, contactForTest);
         assertThat(response.getStatus()).isEqualTo(201);
-    }*/
+    }
 
     @Test
     public void checkContact(){
@@ -52,4 +52,4 @@ public class TestApplication {
         assertThat(emptyContact.getPhone()).isEqualTo(contact.getPhone());
         assertThat(emptyContact.getId()).isEqualTo(contact.getId());
     }
-}
+}*/
