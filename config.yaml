@@ -1,3 +1,13 @@
 message: This is a message defined in the configuration
   file config.yaml.
 messageRepetitions: 3
+
+database:
+  driverClass: org.postgresql.Driver
+  user: me
+  password: 123456
+  url: jdbc:postgresql://localhost:5432/phonebook
+  properties:
+    charSet: UTF-8
+  maxWaitForConnection: 1s
+  evictionInterval: 10s

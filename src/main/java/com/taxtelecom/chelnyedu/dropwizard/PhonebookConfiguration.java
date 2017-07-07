@@ -1,6 +1,8 @@
 package com.taxtelecom.chelnyedu.dropwizard;
 
 import javax.validation.constraints.Max;
+
+import io.dropwizard.db.DataSourceFactory;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -25,6 +27,12 @@ public class PhonebookConfiguration extends Configuration {
 	public String getMessage() {
 		return message;
 	
+	}
+
+	@JsonProperty
+	private DataSourceFactory database = new DataSourceFactory();
+	public DataSourceFactory getDataSourceFactory(){
+		return database;
 	}
 	
 	public int getMessageRepetitions() {
