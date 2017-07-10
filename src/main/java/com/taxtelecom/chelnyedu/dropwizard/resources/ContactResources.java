@@ -18,6 +18,7 @@ public class ContactResources {
     private final ContactDao contactDao;
     public ContactResources(DBI jdbi) {
         contactDao = jdbi.onDemand(ContactDao.class);
+
     }
     @GET
     @Path("/{id}")

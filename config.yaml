@@ -3,10 +3,16 @@ message: This is a message defined in the configuration
 messageRepetitions: 3
 
 database:
-  driverClass: org.postgresql.Driver
-  user: me
-  password: 123456
-  url: jdbc:postgresql://localhost:5432/phonebook
+  driverClass: #org.postgresql.Driver
+  user: 'LOGIN'
+  #'login'
+  #me
+  password: 'PASSWORD'
+  #'password'
+  #123456
+  url: 'URL'
+  #'url'
+  #jdbc:postgresql://localhost:5432/phonebook
   properties:
     charSet: UTF-8
   maxWaitForConnection: 1s
