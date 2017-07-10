@@ -26,7 +26,7 @@ public class TestApplication {
     public static final DropwizardAppRule<PhonebookConfiguration> RULE =
             new DropwizardAppRule<PhonebookConfiguration>(App.class, "config.yaml");
 
-    @Test
+    /*@Test
     public void checkResponse(){
         ClientResponse response = contactResource.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, contactForTest);
         assertThat(response.getStatus()).isEqualTo(201);
@@ -50,5 +50,5 @@ public class TestApplication {
         assertThat(emptyContact.getLastName()).isEqualTo(contact.getLastName());
         assertThat(emptyContact.getPhone()).isEqualTo(contact.getPhone());
         assertThat(emptyContact.getId()).isEqualTo(contact.getId());
-    }
+    }*/
 }
