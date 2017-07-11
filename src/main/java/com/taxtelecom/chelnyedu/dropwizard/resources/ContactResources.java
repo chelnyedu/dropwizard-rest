@@ -20,6 +20,7 @@ public class ContactResources {
         contactDao = jdbi.onDemand(ContactDao.class);
 
     }
+
     @GET
     @Path("/{id}")
     public Response getContact(@PathParam("id") int id){
@@ -47,4 +48,6 @@ public class ContactResources {
         contactDao.updateContact(id, contact.getFirstName(), contact.getLastName(), contact.getPhone());
         return Response.ok(new Contact(id, contact.getFirstName(), contact.getLastName(), contact.getPhone())).build();
     }
+
+
 }

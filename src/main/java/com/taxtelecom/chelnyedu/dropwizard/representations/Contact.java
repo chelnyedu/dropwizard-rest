@@ -1,14 +1,25 @@
 package com.taxtelecom.chelnyedu.dropwizard.representations;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import javax.ws.rs.core.Response;
+
 /**
  * Created by sagel on 06.07.17.
  */
-public class Contact {
+public class Contact{
+    @JsonProperty
     private final int id;
+    @JsonProperty
     private final String firstName;
+    @JsonProperty
     private final String lastName;
+    @JsonProperty
     private final String phone;
 
+    @JsonCreator
     public Contact(){
         this.id = 0;
         this.firstName = null;
