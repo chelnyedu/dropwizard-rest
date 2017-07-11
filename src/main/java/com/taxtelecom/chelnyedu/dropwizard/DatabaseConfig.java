@@ -10,10 +10,11 @@ public class DatabaseConfig implements DatabaseConfiguration {
     private static DatabaseConfiguration databaseConfiguration;
 
     public static DatabaseConfiguration create() {
-        final String login=System.getenv("LOGIN");
-        final String password=System.getenv("PASSWORD");
-        final String url=System.getenv("URL");
-        final String driver=System.getenv("DRIVER");
+        String postgres=System.getenv("DATABASE_URL");
+        String auth=postgres.split("@")[1];
+        final String login=postgres.split("@")[0].split(":")[1].substring(2);
+        final String password=postgres.split("@")[0].split(":")[2];
+        final String url="jdbc:postgresql://"+auth;
         databaseConfiguration=new DatabaseConfiguration(){
             DataSourceFactory dataSourceFactory;
             @Override
@@ -22,7 +23,7 @@ public class DatabaseConfig implements DatabaseConfiguration {
                 dsf.setUser(login);
                 dsf.setPassword(password);
                 dsf.setUrl(url);
-                dsf.setDriverClass(driver);
+                dsf.setDriverClass("org.postgresql.Driver");
                 dataSourceFactory=dsf;
                 return  dsf;
             }
