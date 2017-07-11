@@ -1,10 +1,9 @@
 package com.taxtelecom.chelnyedu.dropwizard;
 
 import javax.validation.constraints.Max;
-
 import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.db.DatabaseConfiguration;
 import org.hibernate.validator.constraints.NotEmpty;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
 
@@ -23,7 +22,10 @@ public class PhonebookConfiguration extends Configuration {
 	@JsonProperty
 	private DataSourceFactory database = new DataSourceFactory();
 
+    @JsonProperty("database")
 	public DataSourceFactory getDataSourceFactory(){
+		DatabaseConfiguration dataBaseConfiguration = DataBaseConfiguration.create();
+		database = dataBaseConfiguration.getDataSourceFactory(null);
 		return database;
 	}
 	
