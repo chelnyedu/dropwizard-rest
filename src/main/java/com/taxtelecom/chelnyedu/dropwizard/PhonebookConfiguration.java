@@ -1,11 +1,9 @@
 package com.taxtelecom.chelnyedu.dropwizard;
 
 import javax.validation.constraints.Max;
-
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.db.DatabaseConfiguration;
 import org.hibernate.validator.constraints.NotEmpty;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
 

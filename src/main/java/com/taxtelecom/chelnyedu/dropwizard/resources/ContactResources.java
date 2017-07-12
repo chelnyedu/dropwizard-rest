@@ -4,7 +4,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import com.taxtelecom.chelnyedu.dropwizard.representations.Contact;
 import com.taxtelecom.chelnyedu.dropwizard.dao.ContactDao;
-import org.skife.jdbi.v2.DBI;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -24,7 +23,6 @@ public class ContactResources {
     @GET
     @Path("/{id}")
     public Response getContact(@PathParam("id") int id){
-      //  return Response.ok( new Contact( id, "John", "Doe", "+123456789")).build();
         Contact contact = contactDao.getContactById(id);
         return Response.ok(contact).build();
     }

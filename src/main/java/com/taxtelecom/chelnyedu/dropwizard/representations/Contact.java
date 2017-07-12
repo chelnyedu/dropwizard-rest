@@ -2,9 +2,6 @@ package com.taxtelecom.chelnyedu.dropwizard.representations;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-import javax.ws.rs.core.Response;
 import java.util.Objects;
 
 /**
@@ -60,5 +57,10 @@ public class Contact{
                 Objects.equals(firstName, contact.firstName) &&
                 Objects.equals(lastName, contact.lastName) &&
                 Objects.equals(phone, contact.phone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, phone);
     }
 }

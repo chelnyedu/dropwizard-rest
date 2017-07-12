@@ -1,12 +1,10 @@
 package com.taxtelecom.chelnyedu.dropwizard;
 
 import static org.fest.assertions.api.Assertions.assertThat;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.dropwizard.jackson.Jackson;
 import org.junit.Test;
 import static io.dropwizard.testing.FixtureHelpers.*;
-import static org.fest.assertions.api.Assertions.assertThat;
 
 
 import com.taxtelecom.chelnyedu.dropwizard.representations.Contact;
