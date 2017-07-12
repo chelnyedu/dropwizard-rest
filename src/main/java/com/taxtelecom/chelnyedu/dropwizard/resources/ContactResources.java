@@ -6,8 +6,6 @@ import java.net.URISyntaxException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
-import org.skife.jdbi.v2.DBI;
-
 import com.taxtelecom.chelnyedu.dropwizard.dao.ContactDAO;
 import com.taxtelecom.chelnyedu.dropwizard.representations.Contact;
 /**
@@ -18,8 +16,9 @@ import com.taxtelecom.chelnyedu.dropwizard.representations.Contact;
 public class ContactResources {
     private final ContactDAO contactDao;
     
-    public ContactResources(DBI jdbi) {
-    contactDao = jdbi.onDemand(ContactDAO.class);
+    public ContactResources(ContactDAO contactDao) {
+    	this.contactDao = contactDao;
+    	contactDao.createTable();
     }
     
 	@GET

@@ -13,8 +13,12 @@ import com.taxtelecom.chelnyedu.dropwizard.representations.Contact;
 
 @RegisterMapper(ContactMapper.class)
 public interface ContactDAO {
+	@SqlUpdate("CREATE TABLE IF NOT EXISTS contact (id SERIAL NOT NULL PRIMARY KEY, firstName varchar(64), "
+			+ "firstName varchar(64), phone varchar(64))")
+	  void createTable();
+	
 	@Mapper(ContactMapper.class)
-	@SqlQuery("select * from contact where id = :id")
+	@SqlQuery("SELECT * FROM contact WHERE id = :id")
 	Contact getContactById(@Bind("id") int id);
 	
     @GetGeneratedKeys
