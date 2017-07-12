@@ -16,8 +16,8 @@ import java.net.URISyntaxException;
 @Produces(MediaType.APPLICATION_JSON)
 public class ContactResources {
     private final ContactDao contactDao;
-    public ContactResources(DBI jdbi) {
-        contactDao = jdbi.onDemand(ContactDao.class);
+    public ContactResources(ContactDao dao) {
+        contactDao = dao;
 
     }
 
