@@ -13,11 +13,11 @@ public class PersonTest {
     @Test
     public void serializesToJSON() throws Exception {
         assertThat(MAPPER.writeValueAsString(contact))
-                .isEqualTo(fixture("person.json"));
+                .isEqualTo(fixture("fixtures/person.json"));
     }
     @Test
     public void deserializesFromJSON() throws Exception {
-    	assertThat(MAPPER.readValue(fixture("person.json"),
+    	assertThat(MAPPER.readValue(fixture("fixtures/person.json"),
     			Contact.class)).isEqualTo(contact);
     }
 }
