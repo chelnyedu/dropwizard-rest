@@ -24,7 +24,7 @@ public class ApplicationTest {
 	private static final ContactResources resources = new ContactResources(dao);
 	@Before
 	public void setup(){
-		when(dao.getContactById(eq(2))).thenReturn(contactForTest);
+		when(dao.getContactById(0)).thenReturn(contactForTest);
 		doNothing().when(dao).deleteContact(0);
 		doNothing().when(dao).updateContact(contactForTest.getId(), contactForTest.getFirstName(),
 				contactForTest.getLastName(), contactForTest.getPhone());
@@ -37,20 +37,19 @@ public class ApplicationTest {
 	}
 	@Test
 	public void responseTest() throws URISyntaxException {
-		 response = resources.getContact(1);
-		 assertThat(response.getStatus()).isEqualTo(200);
-		 response = resources.createContact(contactForTest);
-	     assertThat(response.getStatus()).isEqualTo(201);
-	     response = resources.deleteContact(1);
-	     assertThat(response.getStatus()).isEqualTo(204);
-	     response = resources.updateContact(1, contactForTest);
-	     assertThat(response.getStatus()).isEqualTo(200);
+		response = resources.getContact(1);
+		assertThat(response.getStatus()).isEqualTo(200);
+		response = resources.createContact(contactForTest);
+		assertThat(response.getStatus()).isEqualTo(201);
+		response = resources.deleteContact(1);
+		assertThat(response.getStatus()).isEqualTo(204);
+		response = resources.updateContact(1, contactForTest);
+	    assertThat(response.getStatus()).isEqualTo(200);
 	}
     @Test
     public void checkContact(){    	
-        when(dao.getContactById(0)).thenReturn(contactForTest);
-        Response resp = resources.getContact(0);
-        Contact con = (Contact) resp.getEntity();
+        response = resources.getContact(0);
+        Contact con = (Contact) response.getEntity();
 
         assertThat(contactForTest.getFirstName()).isEqualTo(con.getFirstName());
         assertThat(contactForTest.getLastName()).isEqualTo(con.getLastName());
