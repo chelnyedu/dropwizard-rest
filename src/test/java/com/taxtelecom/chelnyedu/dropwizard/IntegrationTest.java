@@ -22,4 +22,11 @@ public class IntegrationTest {
     public void deserializesFromJSON() throws Exception {
         assertThat(MAPPER.readValue(fixture("person.json"), Contact.class)).isEqualTo(contact);
     }
+    
+    @Test
+    public void getHashCodeTest() {
+        Contact con = new Contact(1, "a","a","a");
+        Contact contact = new Contact(2, "a","a","a");
+        assertThat(con.hashCode()).isNotEqualTo(contact.hashCode());
+    }
 }
