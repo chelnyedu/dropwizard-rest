@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 public class TestContactResources {
     private static final ContactDao dao = mock(ContactDao.class);
     Response response;
-    private static final ContactResources resource = mock(ContactResources.class);
+    private static final ContactResources resource = new ContactResources(dao);
 
 
     @ClassRule
@@ -35,56 +35,32 @@ public class TestContactResources {
 
     @Test
     public void testGetContact(){
-        when(resource.getContact(1)).thenReturn(Response.ok(contact).build());
         response = resource.getContact(1);
         assertThat(response.getStatus()).isEqualTo(200);
 
     }
     @Test
     public void testPostContact() throws URISyntaxException{
-        when(resource.createContact(contact)).thenReturn(Response.ok(contact).build());
         response = resource.createContact(contact);
-        assertThat(response.getStatus()).isEqualTo(200);
+        assertThat(response.getStatus()).isEqualTo(201);
 
     }
 
     @Test
     public void testDeleteContact() {
-        when(resource.deleteContact(1)).thenReturn(Response.ok(contact).build());
         response = resource.deleteContact(1);
-        assertThat(response.getStatus()).isEqualTo(200);
+        assertThat(response.getStatus()).isEqualTo(204);
     }
 
     @Test
     public void testUpdateContact(){
-        when(resource.updateContact(2, contact)).thenReturn(Response.ok(contact).build());
         response = resource.updateContact(2, contact);
         assertThat(response.getStatus()).isEqualTo(200);
     }
 
     @Test
     public void testGetContact2(){
-
         assertThat(resources.client().resource("http://localhost:8080/contact/2").getRequestBuilder().get(Contact.class)).isEqualTo(contact);
         verify(dao).getContactById(2);
     }
-
-
-
-    @Test
-    public void testPostContact2(){
-        assertThat(resources.client().resource("http://localhost:8080/contact/2").
-                getRequestBuilder().post(Contact.class)).isEqualTo(contact);
-
-        verify(dao).createContact("MIR", "RIM", "123456");
-    }
-
-    @Test
-    public void testDeleteContact2(){
-        assertThat(resources.client().resource("http://localhost:8080/contact/2").getRequestBuilder().delete(Contact.class)).isEqualTo(contact);
-        verify(dao).deleteContact(2);
-    }
-
-
-
 }

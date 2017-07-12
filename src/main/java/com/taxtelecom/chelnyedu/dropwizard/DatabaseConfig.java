@@ -9,8 +9,7 @@ import io.dropwizard.db.DatabaseConfiguration;
 public class DatabaseConfig implements DatabaseConfiguration {
     private static DatabaseConfiguration databaseConfiguration;
 
-    public static DatabaseConfiguration create() {
-        String postgres=System.getenv("DATABASE_URL");
+    public static DatabaseConfiguration create(String postgres) {
         String auth=postgres.split("@")[1];
         final String login=postgres.split("@")[0].split(":")[1].substring(2);
         final String password=postgres.split("@")[0].split(":")[2];

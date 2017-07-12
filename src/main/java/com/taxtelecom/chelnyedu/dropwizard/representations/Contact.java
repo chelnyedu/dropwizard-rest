@@ -61,9 +61,4 @@ public class Contact{
                 Objects.equals(lastName, contact.lastName) &&
                 Objects.equals(phone, contact.phone);
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, lastName, phone);
-    }
 }

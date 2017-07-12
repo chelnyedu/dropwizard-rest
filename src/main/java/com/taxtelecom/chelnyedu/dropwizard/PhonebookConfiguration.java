@@ -35,7 +35,8 @@ public class PhonebookConfiguration extends Configuration {
 	@JsonProperty("database")
 	private DataSourceFactory database = new DataSourceFactory();
 	public DataSourceFactory getDataSourceFactory(){
-		DatabaseConfiguration databaseConfiguration = DatabaseConfig.create();
+		String postgres = System.getenv("DATABASE_URL");
+		DatabaseConfiguration databaseConfiguration = DatabaseConfig.create(postgres);
 		database = databaseConfiguration.getDataSourceFactory(null);
 		return database;
 	}
