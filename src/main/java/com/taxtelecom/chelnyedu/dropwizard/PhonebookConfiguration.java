@@ -7,6 +7,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 public class PhonebookConfiguration extends Configuration {
 	@JsonProperty
 	@NotEmpty
@@ -23,8 +26,9 @@ public class PhonebookConfiguration extends Configuration {
 	private DataSourceFactory database = new DataSourceFactory();
 
     @JsonProperty("database")
-	public DataSourceFactory getDataSourceFactory(){
-		DatabaseConfiguration dataBaseConfiguration = DataBaseConfiguration.create();
+	public DataSourceFactory getDataSourceFactory() throws URISyntaxException{
+    	String url = System.getenv("DATABASE_URL");
+		DatabaseConfiguration dataBaseConfiguration = DataBaseConfiguration.create(url);
 		database = dataBaseConfiguration.getDataSourceFactory(null);
 		return database;
 	}

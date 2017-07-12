@@ -1,5 +1,6 @@
 package com.taxtelecom.chelnyedu.dropwizard;
 
+import com.taxtelecom.chelnyedu.dropwizard.dao.ContactDAO;
 import com.taxtelecom.chelnyedu.dropwizard.resources.ContactResources;
 import io.dropwizard.jdbi.DBIFactory;
 import org.skife.jdbi.v2.DBI;
@@ -22,7 +23,7 @@ private static final org.slf4j.Logger logger = LoggerFactory.getLogger(App.class
 
         final DBIFactory factory = new DBIFactory();
         final DBI jdbi = factory.build(e,c.getDataSourceFactory(), "myPostgres");
-        e.jersey().register(new ContactResources(jdbi));
+        e.jersey().register(new ContactResources(jdbi.onDemand(ContactDAO.class)));
     }
 
     public static void main( String[] args ) throws Exception

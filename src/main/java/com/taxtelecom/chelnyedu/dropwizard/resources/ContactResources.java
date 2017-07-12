@@ -5,7 +5,6 @@ import javax.ws.rs.core.*;
 
 import com.taxtelecom.chelnyedu.dropwizard.dao.ContactDAO;
 import com.taxtelecom.chelnyedu.dropwizard.representations.Contact;
-import org.skife.jdbi.v2.DBI;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -13,6 +12,13 @@ import java.net.URISyntaxException;
 @Path("/contact")
 @Produces(MediaType.APPLICATION_JSON)
 public class ContactResources {
+
+    private final ContactDAO contactDAO;
+
+    public ContactResources(ContactDAO dao){
+        contactDAO = dao;
+    }
+
     @GET
     @Path("/{id}")
     public Response getContact(@PathParam("id") int id){
@@ -40,9 +46,4 @@ public class ContactResources {
         return Response.ok(new Contact(id, contact.getFirstName(), contact.getLastName(), contact.getPhone())).build();
     }
 
-    private final ContactDAO contactDAO;
-
-    public ContactResources(DBI jdbi){
-        contactDAO = jdbi.onDemand(ContactDAO.class);
-    }
 }

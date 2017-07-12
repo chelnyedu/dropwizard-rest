@@ -1,54 +1,65 @@
 package com.taxtelecom.chelnyedu.dropwizard;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import org.junit.ClassRule;
-import org.junit.Test;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.ClientResponse;
-import io.dropwizard.testing.junit.DropwizardAppRule;
+import com.taxtelecom.chelnyedu.dropwizard.dao.ContactDAO;
 import com.taxtelecom.chelnyedu.dropwizard.representations.Contact;
 import com.taxtelecom.chelnyedu.dropwizard.resources.ContactResources;
-import com.taxtelecom.chelnyedu.dropwizard.PhonebookConfiguration;
-/**
- * Created by sagel on 06.07.17.
- */
+import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.db.DatabaseConfiguration;
+import io.dropwizard.testing.junit.ResourceTestRule;
+import org.junit.ClassRule;
+import org.junit.Test;
+
+import javax.ws.rs.core.Response;
+import java.net.URISyntaxException;
+
+import static org.fest.assertions.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+
 public class TestApplication {
-    private Contact contactForTest = new Contact(0, "John", "Doe", "+123456789");
-    private Contact emptyContact = new Contact();
-    private Contact contact = new Contact(0, null, null, null);
-    private Client client = new Client();
-    private WebResource contactResource = client.resource("http://localhost:8080/contact");
 
+    private static final ContactDAO dao = mock(ContactDAO.class);
     @ClassRule
-    public static final DropwizardAppRule<PhonebookConfiguration> RULE =
-            new DropwizardAppRule<PhonebookConfiguration>(App.class, "config.yaml");
+    public static final ResourceTestRule res = ResourceTestRule.builder()
+            .addResource(new ContactResources(dao)).build();
 
-   /* @Test
-    public void checkResponse(){
-        ClientResponse response = contactResource.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, contactForTest);
+    private ContactResources resources = new ContactResources(dao);
+    private Contact contact = new Contact(1, "John", "Doe", "+123456789");
+    private Response response;
+
+
+    @Test
+    public void envStringTest() {
+
+       String url = "postgres://me:123456@localhost:5432/contact";
+        DatabaseConfiguration dbConfig = DataBaseConfiguration.create(url);
+        DataSourceFactory dsf = dbConfig.getDataSourceFactory(null);
+        assertThat(dsf.getDriverClass()).isEqualTo("org.postgresql.Driver");
+        assertThat(dsf.getUser()).isEqualTo("me");
+        assertThat(dsf.getPassword()).isEqualTo("123456");
+        assertThat(dsf.getUrl()).isEqualTo("jdbc:postgresql://localhost:5432/contact");
+    }
+
+    @Test
+    public void getContactStatusTest() {
+        response = resources.getContact(1);
+        assertThat(response.getStatus()).isEqualTo(200);
+    }
+
+    @Test
+    public void createContactTest() throws URISyntaxException{
+        response = resources.createContact(contact);
         assertThat(response.getStatus()).isEqualTo(201);
     }
 
     @Test
-    public void checkContact(){
-        ContactResources resources = new ContactResources();
-        Response contact = resources.getContact(0);
-        Contact con = (Contact) contact.getEntity();
-
-        assertThat(contactForTest.getFirstName()).isEqualTo(con.getFirstName());
-        assertThat(contactForTest.getLastName()).isEqualTo(con.getLastName());
-        assertThat(contactForTest.getPhone()).isEqualTo(con.getPhone());
-        assertThat(contactForTest.getId()).isEqualTo(con.getId());
+    public void deleteContactTest(){
+        response = resources.deleteContact(1);
+        assertThat(response.getStatus()).isEqualTo(204);
     }
 
     @Test
-    public void checkEmpty(){
-        assertThat(emptyContact.getFirstName()).isEqualTo(contact.getFirstName());
-        assertThat(emptyContact.getLastName()).isEqualTo(contact.getLastName());
-        assertThat(emptyContact.getPhone()).isEqualTo(contact.getPhone());
-        assertThat(emptyContact.getId()).isEqualTo(contact.getId());
-    }*/
+    public void updateContactTest(){
+        response = resources.updateContact(1, contact);
+        assertThat(response.getStatus()).isEqualTo(200);
+    }
 }
