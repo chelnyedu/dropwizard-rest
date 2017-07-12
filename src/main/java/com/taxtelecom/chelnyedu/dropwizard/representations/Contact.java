@@ -1,14 +1,23 @@
 package com.taxtelecom.chelnyedu.dropwizard.representations;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Objects;
+
 /**
  * Created by sagel on 06.07.17.
  */
-public class Contact {
+public class Contact{
+    @JsonProperty
     private final int id;
+    @JsonProperty
     private final String firstName;
+    @JsonProperty
     private final String lastName;
+    @JsonProperty
     private final String phone;
 
+    @JsonCreator
     public Contact(){
         this.id = 0;
         this.firstName = null;
@@ -37,5 +46,21 @@ public class Contact {
 
     public String getPhone() {
         return phone;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Contact contact = (Contact) o;
+        return id == contact.id &&
+                Objects.equals(firstName, contact.firstName) &&
+                Objects.equals(lastName, contact.lastName) &&
+                Objects.equals(phone, contact.phone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, phone);
     }
 }
