@@ -62,4 +62,14 @@ public class TestApplication {
         response = resources.updateContact(1, contact);
         assertThat(response.getStatus()).isEqualTo(200);
     }
+
+    @Test
+    public void checkEmptyContactTest(){
+        Contact checkContact = new Contact();
+        Contact empty = new Contact(0,null, null, null);
+        assertThat(checkContact.getId()).isEqualTo(empty.getId());
+        assertThat(checkContact.getFirstName()).isEqualTo(empty.getFirstName());
+        assertThat(checkContact.getLastName()).isEqualTo(empty.getLastName());
+        assertThat(checkContact.getPhone()).isEqualTo(empty.getPhone());
+    }
 }
