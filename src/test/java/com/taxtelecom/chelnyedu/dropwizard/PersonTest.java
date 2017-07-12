@@ -13,11 +13,11 @@ public class PersonTest {
     @Test
     public void serializesToJSON() throws Exception {
         assertThat(MAPPER.writeValueAsString(contact))
-                .isEqualTo(fixture("com/taxtelecom/chelnyedu/dropwizard/resources/fixtures/person.json"));
+                .isEqualTo(fixture("resources/fixtures/person.json"));
     }
     @Test
     public void deserializesFromJSON() throws Exception {
-    	assertThat(MAPPER.readValue(fixture("com/taxtelecom/chelnyedu/dropwizard/resources/fixtures/person.json"),
+    	assertThat(MAPPER.readValue(fixture("resources/fixtures/person.json"),
     			Contact.class)).isEqualTo(contact);
     }
 }
