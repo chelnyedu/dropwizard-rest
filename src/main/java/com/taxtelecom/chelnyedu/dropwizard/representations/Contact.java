@@ -1,12 +1,15 @@
 package com.taxtelecom.chelnyedu.dropwizard.representations;
 
-/**
- * Created by sagel on 06.07.17.
- */
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Contact {
+    @JsonProperty
     private final int id;
+    @JsonProperty
     private final String firstName;
+    @JsonProperty
     private final String lastName;
+    @JsonProperty
     private final String phone;
 
     public Contact(){

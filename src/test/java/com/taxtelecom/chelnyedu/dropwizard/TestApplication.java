@@ -3,9 +3,9 @@ package com.taxtelecom.chelnyedu.dropwizard;
 import com.taxtelecom.chelnyedu.dropwizard.dao.ContactDAO;
 import com.taxtelecom.chelnyedu.dropwizard.representations.Contact;
 import com.taxtelecom.chelnyedu.dropwizard.resources.ContactResources;
-import io.dropwizard.db.DataSourceFactory;
-import io.dropwizard.db.DatabaseConfiguration;
 import io.dropwizard.testing.junit.ResourceTestRule;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 
@@ -13,34 +13,36 @@ import javax.ws.rs.core.Response;
 import java.net.URISyntaxException;
 
 import static org.fest.assertions.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 public class TestApplication {
 
     private static final ContactDAO dao = mock(ContactDAO.class);
-    @ClassRule
-    public static final ResourceTestRule res = ResourceTestRule.builder()
-            .addResource(new ContactResources(dao)).build();
-
     private ContactResources resources = new ContactResources(dao);
     private Contact contact = new Contact(1, "John", "Doe", "+123456789");
     private Response response;
 
+    @ClassRule
+    public static final ResourceTestRule res = ResourceTestRule.builder()
+            .addResource(new ContactResources(dao)).build();
 
-    @Test
-    public void envStringTest() {
+    @Before
+    public void setup() {
+        when(dao.getContactById(0)).thenReturn(contact);
+        doNothing().when(dao).deleteContact(0);
+        doNothing().when(dao).updateContact(contact.getId(), contact.getFirstName(),
+                contact.getLastName(), contact.getPhone());
+        when(dao.createContact(contact.getFirstName(), contact.getLastName(),
+                contact.getPhone())).thenReturn(1);
+    }
 
-       String url = "postgres://me:123456@localhost:5432/contact";
-        DatabaseConfiguration dbConfig = DataBaseConfiguration.create(url);
-        DataSourceFactory dsf = dbConfig.getDataSourceFactory(null);
-        assertThat(dsf.getDriverClass()).isEqualTo("org.postgresql.Driver");
-        assertThat(dsf.getUser()).isEqualTo("me");
-        assertThat(dsf.getPassword()).isEqualTo("123456");
-        assertThat(dsf.getUrl()).isEqualTo("jdbc:postgresql://localhost:5432/contact");
+    @After
+    public void resetDAO() {
+        reset(dao);
     }
 
     @Test
-    public void getContactStatusTest() {
+    public void getContactTest() {
         response = resources.getContact(1);
         assertThat(response.getStatus()).isEqualTo(200);
     }
@@ -63,13 +65,4 @@ public class TestApplication {
         assertThat(response.getStatus()).isEqualTo(200);
     }
 
-    @Test
-    public void checkEmptyContactTest(){
-        Contact checkContact = new Contact();
-        Contact empty = new Contact(0,null, null, null);
-        assertThat(checkContact.getId()).isEqualTo(empty.getId());
-        assertThat(checkContact.getFirstName()).isEqualTo(empty.getFirstName());
-        assertThat(checkContact.getLastName()).isEqualTo(empty.getLastName());
-        assertThat(checkContact.getPhone()).isEqualTo(empty.getPhone());
-    }
 }
