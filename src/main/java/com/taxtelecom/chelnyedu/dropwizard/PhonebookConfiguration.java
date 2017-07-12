@@ -5,6 +5,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
+import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.db.DatabaseConfiguration;
 
 public class PhonebookConfiguration extends Configuration {
 	@JsonProperty
@@ -30,4 +32,19 @@ public class PhonebookConfiguration extends Configuration {
 	public int getMessageRepetitions() {
 		return messageRepetitions;
 	}
+	
+	@JsonProperty("database")
+	private DataSourceFactory database = new DataSourceFactory();
+	
+	
+	public DataSourceFactory getDataSourceFactory() {
+		String postgres = System.getenv("DATABASE_URL");
+		DatabaseConfiguration databaseConfiguration = DatabaseConfig.create(postgres);
+		database = databaseConfiguration.getDataSourceFactory(null);
+		return database;
+	}
+	@JsonProperty("database")
+	public void setDataSourceFactory(DataSourceFactory dataSourceFactory){
+		this.database = dataSourceFactory;
+}
 }
