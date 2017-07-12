@@ -30,12 +30,14 @@ import com.sun.jersey.api.client.WebResource;
 public class TestDatabaseConfig {
     @Test
     public void checkParser(){
-        PhonebookConfiguration config = new PhonebookConfiguration();
-        DataSourceFactory dsf = config.getDataSourceFactory();
+
+        String url = "postgres://me:123456@localhost:5432/contact";
+        DatabaseConfiguration dbConfig = DatabaseConfig.create(url);
+        DataSourceFactory dsf = dbConfig.getDataSourceFactory(null);
         assertThat(dsf.getDriverClass()).isEqualTo("org.postgresql.Driver");
         assertThat(dsf.getPassword()).isEqualTo("123456");
         assertThat(dsf.getUser()).isEqualTo("me");
-        assertThat(dsf.getUrl()).isEqualTo("jdbc:postgresql://localhost:5432/phonebook");
+        assertThat(dsf.getUrl()).isEqualTo("jdbc:postgresql://localhost:5432/contact");
 
     }
 
