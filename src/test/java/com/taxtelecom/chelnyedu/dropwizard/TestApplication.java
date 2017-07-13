@@ -65,4 +65,12 @@ public class TestApplication {
         assertThat(response.getStatus()).isEqualTo(200);
     }
 
+    @Test
+    public void getMessageTest(){
+        String message = null;
+        String optionalMessage = "This is optional";
+        PhonebookConfiguration config = new PhonebookConfiguration();
+        assertThat(config.getMessage()).isEqualTo(message);
+        assertThat(config.getAdditionalMessage()).isEqualTo(optionalMessage);
+    }
 }
