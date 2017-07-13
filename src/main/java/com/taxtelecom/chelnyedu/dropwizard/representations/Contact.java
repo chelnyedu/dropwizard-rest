@@ -1,4 +1,6 @@
 package com.taxtelecom.chelnyedu.dropwizard.representations;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.dropwizard.validation.ValidationMethod;
 import org.hibernate.validator.constraints.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -17,6 +19,16 @@ public class Contact {
     @NotBlank
     @Length(min=2, max=30)
     private final String phone;
+
+    @JsonIgnore
+    @ValidationMethod(message="John Doe is not a valid person!")
+    public boolean isValidPerson() {
+           	if (firstName.equals("John") && lastName.equals("Doe")) {
+               		return false;
+               	} else {
+               		return true;
+            }
+    }
 
     public Contact(){
         this.id = 0;
