@@ -1,6 +1,9 @@
 package com.taxtelecom.chelnyedu.dropwizard;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.db.DatabaseConfiguration;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -19,11 +22,12 @@ public class PhonebookConfiguration extends Configuration {
 	@JsonProperty
 	private String additionalMessage = "This is optional";
 
-	@JsonProperty
+	@Valid
+	@NotNull
+	@JsonProperty("database")
 	private DataSourceFactory database = new DataSourceFactory();
 
-    @JsonProperty("database")
-	public DataSourceFactory getDataSourceFactory() {
+    public DataSourceFactory getDataSourceFactory() {
     	String url = System.getenv("DATABASE_URL");
 		DatabaseConfiguration dataBaseConfiguration = DataBaseConfiguration.create(url);
 		database = dataBaseConfiguration.getDataSourceFactory(null);
