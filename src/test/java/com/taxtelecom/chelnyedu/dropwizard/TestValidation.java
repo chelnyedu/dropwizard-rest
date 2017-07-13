@@ -19,8 +19,7 @@ import javax.ws.rs.core.Response;
  * Created by user on 13.07.17.
  */
 public class TestValidation {
-    private Contact contact = new Contact(1, "John", "Doe", "+123456789");
-    private Validator validator;
+    private Contact contact;
     private ContactDAO dao = mock(ContactDAO.class);
 
 
@@ -28,11 +27,24 @@ public class TestValidation {
     public void validationContact() throws URISyntaxException {
         ValidatorFactory vf = Validation.buildDefaultValidatorFactory();
         Validator validator = vf.getValidator();
+        contact = new Contact(1, "John", "Doe", "+123456789");
         ContactResources res = new ContactResources(dao, validator);
         Response response = res.createContact(contact);
         assertThat(response.getStatus()).isEqualTo(400);
         response = res.updateContact(1, contact);
         assertThat(response.getStatus()).isEqualTo(400);
+    }
+
+    @Test
+    public void badRequestTest() throws URISyntaxException {
+        contact = new Contact(1,"1","1","1");
+        ValidatorFactory vf = Validation.buildDefaultValidatorFactory();
+        Validator validator = vf.getValidator();
+        ContactResources resources = new ContactResources(dao, validator);
+        Response response = resources.createContact(contact);
+        assertThat(response.getStatus()).isEqualTo(400);
+        response = resources.updateContact(1, contact);
+         assertThat(response.getStatus()).isEqualTo(400);
     }
 
 }
