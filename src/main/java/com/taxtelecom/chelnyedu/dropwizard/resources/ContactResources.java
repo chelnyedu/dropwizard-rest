@@ -35,8 +35,8 @@ public class ContactResources {
     @POST
     public Response createContact(Contact contact) throws URISyntaxException{
     	Set<ConstraintViolation<Contact>> violations = validator.validate(contact);
-    	if (violations.size() > 0) {
-    		ArrayList<String> validationMessages = new ArrayList<String>();
+    	if (!violations.isEmpty()) {
+    		ArrayList<String> validationMessages = new ArrayList();
     		for (ConstraintViolation<Contact> violation :violations) {
     			validationMessages.add(violation.getPropertyPath().toString() +":" + violation.getMessage());
     		}
@@ -62,9 +62,8 @@ public class ContactResources {
     @Path("/{id}")
     public Response updateContact(@PathParam("id") int id, Contact contact){
     	Set<ConstraintViolation<Contact>> violations = validator.validate(contact);
-    	if (violations.size() > 0) {
-    		ArrayList<String> validationMessages = new
-    		ArrayList<String>();
+    	if (!violations.isEmpty()) {
+    		ArrayList<String> validationMessages = new ArrayList();
     		for (ConstraintViolation<Contact> violation : violations) {
     			validationMessages.add(violation.getPropertyPath().toString() +":" + violation.getMessage());
     		}
