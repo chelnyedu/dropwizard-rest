@@ -1,15 +1,21 @@
 package com.taxtelecom.chelnyedu.dropwizard.representations;
-
+import org.hibernate.validator.constraints.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Contact {
     @JsonProperty
     private final int id;
     @JsonProperty
+    @NotBlank
+    @Length(min=2, max=255)
     private final String firstName;
     @JsonProperty
+    @NotBlank
+    @Length(min=2, max=255)
     private final String lastName;
     @JsonProperty
+    @NotBlank
+    @Length(min=2, max=30)
     private final String phone;
 
     public Contact(){
