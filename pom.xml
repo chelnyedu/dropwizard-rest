@@ -26,11 +26,11 @@
     </repositories>
 
     <dependencies>
-    <dependency>
-        <groupId>io.dropwizard</groupId>
-        <artifactId>dropwizard-core</artifactId>
-        <version>0.7.0</version>
-    </dependency>
+        <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-core</artifactId>
+            <version>0.7.0</version>
+        </dependency>
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-testing</artifactId>
@@ -40,13 +40,18 @@
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
             <version>1.3</version>
-        </dependency>
-
+        </dependency>     
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-jdbi</artifactId>
             <version>0.7.0</version>
         </dependency>
+        <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-migrations</artifactId>
+            <version>0.7.0</version>
+        </dependency>
+        
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
