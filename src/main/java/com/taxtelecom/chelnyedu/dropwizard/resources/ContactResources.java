@@ -1,22 +1,29 @@
 package com.taxtelecom.chelnyedu.dropwizard.resources;
 
+import javax.validation.ConstraintViolation;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Set;
 
 import com.taxtelecom.chelnyedu.dropwizard.dao.ContactDAO;
 import com.taxtelecom.chelnyedu.dropwizard.representations.Contact;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import javax.validation.Validator;
+
 
 @Path("/contact")
 @Produces(MediaType.APPLICATION_JSON)
 public class ContactResources {
 
     private final ContactDAO contactDAO;
+    private final Validator validator;
 
-    public ContactResources(ContactDAO dao){
+    public ContactResources(ContactDAO dao, Validator validator){
         contactDAO = dao;
+        this.validator = validator;
     }
 
     @GET
@@ -28,9 +35,26 @@ public class ContactResources {
 
     @POST
     public Response createContact(Contact contact) throws URISyntaxException{
-        int newContactId = contactDAO.createContact(contact.getFirstName(),contact.getLastName(),contact.getPhone());
-        return  Response.created(new URI(String.valueOf(newContactId))).build();
+        Set<ConstraintViolation<Contact>> violations = validator.validate(contact);
+
+        if (!violations.isEmpty()) {
+            ArrayList<String> validationMessages = new ArrayList<>();
+            for (ConstraintViolation<Contact> violation : violations) {
+                validationMessages.add(violation.getPropertyPath().toString() +": " + violation.getMessage());
+            }
+            return Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity(validationMessages)
+                    .build();
+        }
+        else {
+            int newContactId = contactDAO.createContact(contact.getFirstName(),
+                            contact.getLastName(), contact.getPhone());
+            return Response.created(new
+                    URI(String.valueOf(newContactId))).build();
+        }
     }
+
 
     @DELETE
     @Path("/{id}")
@@ -42,8 +66,28 @@ public class ContactResources {
     @PUT
     @Path("/{id}")
     public Response updateContact(@PathParam("id") int id, Contact contact){
-       contactDAO.updateContact(id, contact.getFirstName(), contact.getLastName(), contact.getPhone());
-        return Response.ok(new Contact(id, contact.getFirstName(), contact.getLastName(), contact.getPhone())).build();
+        Set<ConstraintViolation<Contact>> violations = validator.validate(contact);
+
+        if (!violations.isEmpty()) {
+            ArrayList<String> validationMessages = new ArrayList<>();
+            for (ConstraintViolation<Contact> violation : violations) {
+                validationMessages.add(violation.getPropertyPath().toString() +": "
+                        + violation.getMessage());
+            }
+            return Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity(validationMessages)
+                    .build();
+        }
+        else {
+            contactDAO.updateContact(id, contact.getFirstName(),
+                    contact.getLastName(), contact.getPhone());
+            return Response.ok(
+                    new Contact(id, contact.getFirstName(),
+                            contact.getLastName(),
+                            contact.getPhone())).build();
+        }
+
     }
 
 }

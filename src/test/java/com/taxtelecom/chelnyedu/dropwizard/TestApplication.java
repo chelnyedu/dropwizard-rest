@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 
+import javax.validation.Validator;
 import javax.ws.rs.core.Response;
 import java.net.URISyntaxException;
 
@@ -18,13 +19,14 @@ import static org.mockito.Mockito.*;
 public class TestApplication {
 
     private static final ContactDAO dao = mock(ContactDAO.class);
-    private ContactResources resources = new ContactResources(dao);
+    private ContactResources resources = new ContactResources(dao, validator);
     private Contact contact = new Contact(1, "John", "Doe", "+123456789");
     private Response response;
 
+    private static Validator validator = mock(Validator.class);
     @ClassRule
     public static final ResourceTestRule res = ResourceTestRule.builder()
-            .addResource(new ContactResources(dao)).build();
+            .addResource(new ContactResources(dao, validator)).build();
 
     @Before
     public void setup() {

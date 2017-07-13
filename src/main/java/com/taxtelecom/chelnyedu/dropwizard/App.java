@@ -32,7 +32,7 @@ private static final org.slf4j.Logger logger = LoggerFactory.getLogger(App.class
 
         final DBIFactory factory = new DBIFactory();
         final DBI jdbi = factory.build(e,c.getDataSourceFactory(), "myPostgres");
-        e.jersey().register(new ContactResources(jdbi.onDemand(ContactDAO.class)));
+        e.jersey().register(new ContactResources(jdbi.onDemand(ContactDAO.class), e.getValidator()));
     }
 
     public static void main( String[] args ) throws Exception
