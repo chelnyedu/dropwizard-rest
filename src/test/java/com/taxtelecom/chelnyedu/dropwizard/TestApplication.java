@@ -18,13 +18,13 @@ import static org.mockito.Mockito.*;
 public class TestApplication {
 
     private static final ContactDAO dao = mock(ContactDAO.class);
-    private ContactResources resources = new ContactResources(dao);
+    private ContactResources resources = new ContactResources(dao, null);
     private Contact contact = new Contact(1, "John", "Doe", "+123456789");
     private Response response;
 
     @ClassRule
     public static final ResourceTestRule res = ResourceTestRule.builder()
-            .addResource(new ContactResources(dao)).build();
+            .addResource(new ContactResources(dao, null)).build();
 
     @Before
     public void setup() {

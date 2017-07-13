@@ -1,15 +1,27 @@
 package com.taxtelecom.chelnyedu.dropwizard.representations;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.dropwizard.validation.ValidationMethod;
 
 public class Contact {
     @JsonProperty
     private final int id;
     @JsonProperty
+    @NotBlank
+    @Length(min=2, max=255)
     private final String firstName;
     @JsonProperty
+    @NotBlank
+    @Length(min=2, max=255)
     private final String lastName;
     @JsonProperty
+    @NotBlank
+    @Length(min=2, max=30)
     private final String phone;
 
     public Contact(){
@@ -55,7 +67,15 @@ public class Contact {
         if (lastName != null ? !lastName.equals(contact.lastName) : contact.lastName != null) return false;
         return phone != null ? phone.equals(contact.phone) : contact.phone == null;
     }
-
+    @JsonIgnore
+    @ValidationMethod(message="John Doe is not a valid person!")
+    public boolean isValidPerson() {
+    	if (firstName.equals("John") && lastName.equals("Doe")) {
+    		return false;
+    	} else {
+    		return true;
+    	}
+    }
     @Override
     public int hashCode() {
         int result = id;
