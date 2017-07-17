@@ -24,6 +24,7 @@ import static org.mockito.Mockito.*;
 /**
  * Created by user on 14.07.17.
  */
+
 public class TestWebService {
     ClientResource clientResource = mock(ClientResource.class);
 
