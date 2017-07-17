@@ -46,7 +46,7 @@ public class ClientTest {
     }
     @Test
     public void showContactTest() {
-    	resources.contactResource = webResourse;
+    	resources.setWebResource(webResourse);
 		String output = "ID: " + contact.getId()
 				+ "\nFirst name: " + contact.getFirstName()
 				+ "\nLast name: " + contact.getLastName()
@@ -56,7 +56,7 @@ public class ClientTest {
     }
     @Test
     public void deleteContactTest() {
-    	resources.contactResource = webResourse;
+    	resources.setWebResource(webResourse);
     	response = resources.deleteContact(0);
     	assertThat(response.getStatus()).isEqualTo(204);
     }

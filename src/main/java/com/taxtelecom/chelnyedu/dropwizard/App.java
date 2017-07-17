@@ -1,7 +1,10 @@
 package com.taxtelecom.chelnyedu.dropwizard;
 
+import com.google.common.cache.CacheBuilderSpec;
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import com.taxtelecom.chelnyedu.dropwizard.dao.ContactDAO;
+import com.taxtelecom.chelnyedu.dropwizard.dao.UserDAO;
 import com.taxtelecom.chelnyedu.dropwizard.resources.ClientResources;
 import com.taxtelecom.chelnyedu.dropwizard.resources.ContactResources;
 import io.dropwizard.db.DataSourceFactory;
@@ -10,6 +13,9 @@ import io.dropwizard.migrations.MigrationsBundle;
 import org.skife.jdbi.v2.DBI;
 import org.slf4j.LoggerFactory;
 import io.dropwizard.Application;
+import io.dropwizard.auth.CachingAuthenticator;
+import io.dropwizard.auth.basic.BasicAuthProvider;
+import io.dropwizard.auth.basic.BasicCredentials;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.setup.Bootstrap;
@@ -37,7 +43,15 @@ private static final org.slf4j.Logger logger = LoggerFactory.getLogger(App.class
         e.jersey().register(new ContactResources(jdbi.onDemand(ContactDAO.class), e.getValidator()));
         
         final Client client = new JerseyClientBuilder(e).build("REST Client");
+        client.addFilter(new HTTPBasicAuthFilter("john_doe", "secret"));
         e.jersey().register(new ClientResources(client));
+        CachingAuthenticator<BasicCredentials, Boolean> authenticator =
+        		new CachingAuthenticator<BasicCredentials, Boolean>(
+        				e.metrics(),
+        				new PhonebookAuthenticator(jdbi.onDemand(UserDAO.class)),
+        				CacheBuilderSpec.parse("maximumSize=10000, expireAfterAccess=10m"));
+        e.jersey().register(new BasicAuthProvider<Boolean>(
+        		authenticator, "Web Service Realm"));
     }
 
     public static void main( String[] args ) throws Exception
