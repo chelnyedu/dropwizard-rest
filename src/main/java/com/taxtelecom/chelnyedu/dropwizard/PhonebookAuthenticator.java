@@ -1,7 +1,5 @@
 package com.taxtelecom.chelnyedu.dropwizard;
 
-import org.skife.jdbi.v2.DBI;
-
 import com.google.common.base.Optional;
 import com.taxtelecom.chelnyedu.dropwizard.dao.UserDAO;
 
@@ -12,8 +10,8 @@ import io.dropwizard.auth.basic.BasicCredentials;
 public class PhonebookAuthenticator implements Authenticator<BasicCredentials, Boolean>{
 	
 	private final UserDAO userDao;
-	public PhonebookAuthenticator(DBI jdbi) {
-		userDao = jdbi.onDemand(UserDAO.class);
+	public PhonebookAuthenticator(UserDAO userDao) {
+		this.userDao = userDao;
 	}
 	public Optional<Boolean> authenticate(BasicCredentials c) throws AuthenticationException {
 		boolean validUser = (userDao.getUser(c.getUsername(),

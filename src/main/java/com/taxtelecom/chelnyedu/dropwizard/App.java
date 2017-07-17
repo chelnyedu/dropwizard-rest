@@ -4,6 +4,7 @@ import com.google.common.cache.CacheBuilderSpec;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import com.taxtelecom.chelnyedu.dropwizard.dao.ContactDAO;
+import com.taxtelecom.chelnyedu.dropwizard.dao.UserDAO;
 import com.taxtelecom.chelnyedu.dropwizard.resources.ClientResources;
 import com.taxtelecom.chelnyedu.dropwizard.resources.ContactResources;
 import io.dropwizard.db.DataSourceFactory;
@@ -47,7 +48,7 @@ private static final org.slf4j.Logger logger = LoggerFactory.getLogger(App.class
         CachingAuthenticator<BasicCredentials, Boolean> authenticator =
         		new CachingAuthenticator<BasicCredentials, Boolean>(
         				e.metrics(),
-        				new PhonebookAuthenticator(jdbi),
+        				new PhonebookAuthenticator(jdbi.onDemand(UserDAO.class)),
         				CacheBuilderSpec.parse("maximumSize=10000, expireAfterAccess=10m"));
         e.jersey().register(new BasicAuthProvider<Boolean>(
         		authenticator, "Web Service Realm"));

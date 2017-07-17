@@ -8,11 +8,14 @@ import com.taxtelecom.chelnyedu.dropwizard.representations.Contact;
 @Produces(MediaType.TEXT_PLAIN)
 @Path("/client/")
 public class ClientResources {
-	public ClientResponse response;
-	public WebResource contactResource;
+	private ClientResponse response;
+	private WebResource contactResource;
 	private Client client;
 	public ClientResources(Client client) {
 		this.client = client;
+	}
+	public void setWebResource(WebResource contactResource) {
+		this.contactResource = contactResource;
 	}
 	@GET
 	@Path("showContact")
