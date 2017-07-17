@@ -22,5 +22,15 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet id="2" author="me">
+        <createTable tableName="users">
+            <column name="username" type="text">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="password" type="text">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
 
 </databaseChangeLog>
