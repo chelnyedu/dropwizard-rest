@@ -10,6 +10,7 @@ import java.util.Set;
 
 import com.taxtelecom.chelnyedu.dropwizard.dao.ContactDAO;
 import com.taxtelecom.chelnyedu.dropwizard.representations.Contact;
+import io.dropwizard.auth.Auth;
 
 import javax.validation.Validator;
 
@@ -28,13 +29,15 @@ public class ContactResources {
 
     @GET
     @Path("/{id}")
-    public Response getContact(@PathParam("id") int id){
+    public Response getContact(@PathParam("id") int id, @Auth
+            Boolean isAuthenticated){
         Contact contact = contactDAO.getContactById(id);
         return Response.ok(contact).build();
     }
 
     @POST
-    public Response createContact(Contact contact) throws URISyntaxException{
+    public Response createContact(Contact contact, @Auth
+            Boolean isAuthenticated) throws URISyntaxException{
         Set<ConstraintViolation<Contact>> violations = validator.validate(contact);
 
         if (!violations.isEmpty()) {
@@ -58,14 +61,16 @@ public class ContactResources {
 
     @DELETE
     @Path("/{id}")
-    public Response deleteContact(@PathParam("id") int id){
+    public Response deleteContact(@PathParam("id") int id, @Auth
+            Boolean isAuthenticated){
         contactDAO.deleteContact(id);
         return Response.noContent().build();
     }
 
     @PUT
     @Path("/{id}")
-    public Response updateContact(@PathParam("id") int id, Contact contact){
+    public Response updateContact(@PathParam("id") int id, Contact contact, @Auth
+            Boolean isAuthenticated){
         Set<ConstraintViolation<Contact>> violations = validator.validate(contact);
 
         if (!violations.isEmpty()) {

@@ -1,11 +1,14 @@
 package com.taxtelecom.chelnyedu.dropwizard;
 
+import com.google.common.cache.CacheBuilderSpec;
 import com.sun.jersey.api.client.Client;
 import com.taxtelecom.chelnyedu.dropwizard.PhonebookAuthenticator.PhonebookAuthenticator;
 import com.taxtelecom.chelnyedu.dropwizard.dao.ContactDAO;
 import com.taxtelecom.chelnyedu.dropwizard.resources.ClientResources;
 import com.taxtelecom.chelnyedu.dropwizard.resources.ContactResources;
+import io.dropwizard.auth.CachingAuthenticator;
 import io.dropwizard.auth.basic.BasicAuthProvider;
+import io.dropwizard.auth.basic.BasicCredentials;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.migrations.MigrationsBundle;
@@ -40,7 +43,11 @@ private static final org.slf4j.Logger logger = LoggerFactory.getLogger(App.class
         
         final Client client = new JerseyClientBuilder(e).build("REST Client");
         e.jersey().register(new ClientResources(client));
-        e.jersey().register(new BasicAuthProvider<Boolean>(new PhonebookAuthenticator(), "Web Service Realm"));
+        CachingAuthenticator<BasicCredentials, Boolean> authenticator = new CachingAuthenticator<BasicCredentials, Boolean>(
+                        e.metrics(), new PhonebookAuthenticator(jdbi),
+                        CacheBuilderSpec.parse("maximumSize=10000, expireAfterAccess=10m"));
+        e.jersey().register(new BasicAuthProvider<Boolean>(authenticator, "Web Service Realm"));
+        //e.jersey().register(new BasicAuthProvider<Boolean>(new PhonebookAuthenticator(jdbi), "Web Service Realm"));
     }
 
     public static void main( String[] args ) throws Exception

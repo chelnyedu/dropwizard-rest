@@ -1,5 +1,7 @@
 package com.taxtelecom.chelnyedu.dropwizard;
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import com.taxtelecom.chelnyedu.dropwizard.dao.ContactDAO;
 import com.taxtelecom.chelnyedu.dropwizard.representations.Contact;
 import com.taxtelecom.chelnyedu.dropwizard.resources.ContactResources;
@@ -22,11 +24,7 @@ public class TestApplication {
     private ContactResources resources = new ContactResources(dao, validator);
     private Contact contact = new Contact(1, "John", "Doe", "+123456789");
     private Response response;
-
     private static Validator validator = mock(Validator.class);
-    @ClassRule
-    public static final ResourceTestRule res = ResourceTestRule.builder()
-            .addResource(new ContactResources(dao, validator)).build();
 
     @Before
     public void setup() {
@@ -45,25 +43,25 @@ public class TestApplication {
 
     @Test
     public void getContactTest() {
-        response = resources.getContact(1);
+        response = resources.getContact(1, true);
         assertThat(response.getStatus()).isEqualTo(200);
     }
 
     @Test
     public void createContactTest() throws URISyntaxException{
-        response = resources.createContact(contact);
+        response = resources.createContact(contact, true);
         assertThat(response.getStatus()).isEqualTo(201);
     }
 
     @Test
     public void deleteContactTest(){
-        response = resources.deleteContact(1);
+        response = resources.deleteContact(1, true);
         assertThat(response.getStatus()).isEqualTo(204);
     }
 
     @Test
     public void updateContactTest(){
-        response = resources.updateContact(1, contact);
+        response = resources.updateContact(1, contact, true);
         assertThat(response.getStatus()).isEqualTo(200);
     }
 
