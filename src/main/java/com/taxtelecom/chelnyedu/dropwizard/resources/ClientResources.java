@@ -8,16 +8,19 @@ import com.taxtelecom.chelnyedu.dropwizard.representations.Contact;
 @Produces(MediaType.TEXT_PLAIN)
 @Path("/client/")
 public class ClientResources {
-	public ClientResponse response;
-	public WebResource contactResource;
+	private ClientResponse response;
+	public WebResource contactResource = null;
 	private Client client;
+	String url="http://localhost:8080/contact/";
+
+
 	public ClientResources(Client client) {
 		this.client = client;
 	}
 	@GET
 	@Path("showContact")
 	public String showContact(@QueryParam("id") int id) {
-		contactResource = client.resource("http://localhost:8080/contact/"+id);
+		contactResource = client.resource(url+id);
 		Contact c = contactResource.get(Contact.class);
 		String output = "ID: " + id
 				+ "\nFirst name: " + c.getFirstName()
@@ -30,7 +33,7 @@ public class ClientResources {
 	public Response newContact(@QueryParam("firstName")String firstName,
 			@QueryParam("lastName") String lastName,
 			@QueryParam("phone") String phone) {
-		contactResource = client.resource("http://localhost:8080/contact");
+		contactResource = client.resource(url);
 		response = contactResource
 				.type(MediaType.APPLICATION_JSON)
 				.post(ClientResponse.class, new Contact(0, firstName, lastName, phone));
@@ -49,7 +52,7 @@ public class ClientResources {
 			@QueryParam("firstName") String firstName,
 			@QueryParam("lastName") String lastName,
 			@QueryParam("phone") String phone) {
-		contactResource = client.resource("http://localhost:8080/contact/" + id);
+		contactResource = client.resource(url + id);
 		response = contactResource.type(MediaType.
 				APPLICATION_JSON).put(ClientResponse.class, new Contact(id,
 						firstName, lastName, phone));
@@ -63,7 +66,7 @@ public class ClientResources {
 	@GET
 	@Path("deleteContact")
 	public Response deleteContact(@QueryParam("id") int id) {
-		contactResource = client.resource("http://localhost:8080/contact/" + id);
+		contactResource = client.resource(url + id);
 		contactResource.delete();
 		return Response.noContent().entity("Contact was deleted!").build();
 	}

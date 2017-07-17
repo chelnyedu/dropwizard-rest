@@ -1,4 +1,4 @@
-package com.taxtelecom.chelnyedu.dropwizard.PhonebookAuthenticator;
+package com.taxtelecom.chelnyedu.dropwizard.phonebookauthenticator;
 import com.google.common.base.Optional;
 import com.taxtelecom.chelnyedu.dropwizard.dao.UserDAO;
 import io.dropwizard.auth.AuthenticationException;
