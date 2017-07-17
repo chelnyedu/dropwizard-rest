@@ -8,6 +8,8 @@ import com.taxtelecom.chelnyedu.dropwizard.representations.Contact;
 @Produces(MediaType.TEXT_PLAIN)
 @Path("/client/")
 public class ClientResources {
+	public ClientResponse response;
+	public WebResource contactResource;
 	private Client client;
 	public ClientResources(Client client) {
 		this.client = client;
@@ -15,7 +17,7 @@ public class ClientResources {
 	@GET
 	@Path("showContact")
 	public String showContact(@QueryParam("id") int id) {
-		WebResource contactResource = client.resource("http://localhost:8080/contact/"+id);
+		contactResource = client.resource("http://localhost:8080/contact/"+id);
 		Contact c = contactResource.get(Contact.class);
 		String output = "ID: " + id
 				+ "\nFirst name: " + c.getFirstName()
@@ -28,11 +30,10 @@ public class ClientResources {
 	public Response newContact(@QueryParam("firstName")String firstName,
 			@QueryParam("lastName") String lastName,
 			@QueryParam("phone") String phone) {
-		WebResource contactResource =
-				client.resource("http://localhost:8080/contact");
-		ClientResponse response = contactResource.type(MediaType.
-				APPLICATION_JSON).post(ClientResponse.class, new Contact(0,
-						firstName, lastName, phone));
+		contactResource = client.resource("http://localhost:8080/contact");
+		response = contactResource
+				.type(MediaType.APPLICATION_JSON)
+				.post(ClientResponse.class, new Contact(0, firstName, lastName, phone));
 		if (response.getStatus() == 201) {
 			return Response.status(302).entity("The contact was created successfully! "
 					+ "The new contact can be found at " +
@@ -48,9 +49,8 @@ public class ClientResources {
 			@QueryParam("firstName") String firstName,
 			@QueryParam("lastName") String lastName,
 			@QueryParam("phone") String phone) {
-		WebResource contactResource =
-				client.resource("http://localhost:8080/contact/" + id);
-		ClientResponse response = contactResource.type(MediaType.
+		contactResource = client.resource("http://localhost:8080/contact/" + id);
+		response = contactResource.type(MediaType.
 				APPLICATION_JSON).put(ClientResponse.class, new Contact(id,
 						firstName, lastName, phone));
 		if (response.getStatus() == 200) {
@@ -63,8 +63,7 @@ public class ClientResources {
 	@GET
 	@Path("deleteContact")
 	public Response deleteContact(@QueryParam("id") int id) {
-		WebResource contactResource =
-				client.resource("http://localhost:8080/contact/"+id);
+		contactResource = client.resource("http://localhost:8080/contact/" + id);
 		contactResource.delete();
 		return Response.noContent().entity("Contact was deleted!").build();
 	}
