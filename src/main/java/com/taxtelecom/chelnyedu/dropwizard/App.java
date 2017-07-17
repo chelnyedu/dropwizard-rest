@@ -1,7 +1,10 @@
 package com.taxtelecom.chelnyedu.dropwizard;
 
+import com.sun.jersey.api.client.Client;
 import com.taxtelecom.chelnyedu.dropwizard.dao.ContactDAO;
+import com.taxtelecom.chelnyedu.dropwizard.resources.ClientResource;
 import com.taxtelecom.chelnyedu.dropwizard.resources.ContactResources;
+import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.migrations.MigrationsBundle;
@@ -33,6 +36,9 @@ private static final org.slf4j.Logger logger = LoggerFactory.getLogger(App.class
         final DBIFactory factory = new DBIFactory();
         final DBI jdbi = factory.build(e,c.getDataSourceFactory(), "myPostgres");
         e.jersey().register(new ContactResources(jdbi.onDemand(ContactDAO.class), e.getValidator()));
+
+        final Client client = new JerseyClientBuilder(e).build("REST Client");
+        e.jersey().register(new ClientResource(client));
     }
 
     public static void main( String[] args ) throws Exception
