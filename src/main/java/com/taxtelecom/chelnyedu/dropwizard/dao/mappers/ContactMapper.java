@@ -14,6 +14,8 @@ public class ContactMapper implements  ResultSetMapper<Contact> {
         return new Contact(r.getInt("id"),
                 r.getString("firstName"),
                 r.getString("lastName"),
-                r.getString("phone"));
+                r.getString("phone"),
+                r.getString("mail"),
+                r.getString("comment"));
     }
 }
