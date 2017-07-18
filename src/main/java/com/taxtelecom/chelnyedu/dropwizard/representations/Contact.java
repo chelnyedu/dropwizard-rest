@@ -24,7 +24,7 @@ public class Contact {
     @Length(min=2, max=30)
     private final String mail;
     @JsonProperty
-    @Length(max=30)
+    @Length(max=250)
     private final String comment;
 
     @JsonIgnore
