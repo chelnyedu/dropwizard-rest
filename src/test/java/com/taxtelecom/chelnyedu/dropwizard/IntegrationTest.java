@@ -11,7 +11,7 @@ import static io.dropwizard.testing.FixtureHelpers.fixture;
 
 public class IntegrationTest {
     final ObjectMapper MAPPER = Jackson.newObjectMapper();
-    private Contact contact = new Contact(1, "John", "Doe", "+123456789");
+    private Contact contact = new Contact(1, "John", "Doe", "+123456789", "john@mail.ru", "norm");
 
     @Test
     public void serializesToJSON() throws Exception {
@@ -25,8 +25,8 @@ public class IntegrationTest {
     
     @Test
     public void getHashCodeTest() {
-        Contact con = new Contact(1, "a","a","a");
-        Contact contact = new Contact(2, "a","a","a");
+        Contact con = new Contact(1, "a","a","a", "a", "a");
+        Contact contact = new Contact(2, "a","a","a", "a", "a");
         assertThat(con.hashCode()).isNotEqualTo(contact.hashCode());
     }
 }

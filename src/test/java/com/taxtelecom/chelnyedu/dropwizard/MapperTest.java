@@ -19,8 +19,10 @@ public class MapperTest {
 		when(r.getString("firstName")).thenReturn("Jade");
 		when(r.getString("lastName")).thenReturn("Doe");
 		when(r.getString("phone")).thenReturn("0123456789");
+		when(r.getString("mail")).thenReturn("john@mail.ru");
+		when(r.getString("comment")).thenReturn("norm");
 		StatementContext ctx = mock(StatementContext.class);
-		Contact con = new Contact(1 ,"Jade", "Doe", "0123456789");
+		Contact con = new Contact(1 ,"Jade", "Doe", "0123456789", "john@mail.ru", "norm");
 		Contact contact = mapper.map(0, r, ctx);
 		assertThat(contact).isEqualTo(con);
 	}
