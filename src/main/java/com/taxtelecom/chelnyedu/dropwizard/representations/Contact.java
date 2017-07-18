@@ -32,9 +32,8 @@ public class Contact {
     public boolean isValidPerson() {
            	if (firstName.equals("John") && lastName.equals("Doe")) {
                		return false;
-               	} else {
-               		return true;
             }
+            return true;
     }
 
     public Contact(){
