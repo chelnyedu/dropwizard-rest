@@ -17,7 +17,6 @@ import org.mockito.Mockito;
 
 import com.taxtelecom.chelnyedu.dropwizard.dao.ContactDAO;
 import com.taxtelecom.chelnyedu.dropwizard.representations.Contact;
-import com.taxtelecom.chelnyedu.dropwizard.resources.ClientResources;
 import com.sun.jersey.api.client.*;
 
 public class ClientTest {
@@ -25,7 +24,7 @@ public class ClientTest {
     private static final ContactDAO dao = mock(ContactDAO.class);
     private static final Client client = mock(Client.class);
     private ClientResources resources = new ClientResources(client);
-    private Contact contact = new Contact(0, "John", "Doe", "+123456789");
+    private Contact contact = new Contact(0, "John", "Doe", "+123456789", "s@re.ru", "");
     private Response response;
 
 
@@ -34,9 +33,9 @@ public class ClientTest {
         when(dao.getContactById(0)).thenReturn(contact);
         doNothing().when(dao).deleteContact(0);
         doNothing().when(dao).updateContact(contact.getId(), contact.getFirstName(),
-                contact.getLastName(), contact.getPhone());
+                contact.getLastName(), contact.getPhone(), contact.getMail(), contact.getComment());
         when(dao.createContact(contact.getFirstName(), contact.getLastName(),
-                contact.getPhone())).thenReturn(1);
+                contact.getPhone(), contact.getMail(), contact.getComment())).thenReturn(1);
         when(client.resource(Mockito.anyString())).thenReturn(webResourse);
         when(webResourse.get(Contact.class)).thenReturn(contact);
     }
@@ -50,7 +49,10 @@ public class ClientTest {
 		String output = "ID: " + contact.getId()
 				+ "\nFirst name: " + contact.getFirstName()
 				+ "\nLast name: " + contact.getLastName()
-				+ "\nPhone: " + contact.getPhone();
+				+ "\nPhone: " + contact.getPhone()
+                + "\nE-mail: " + contact.getMail()
+                + "\nComment: " + contact.getComment();
+
     	String outputTest = resources.showContact(0);
     	assertThat(output).isEqualTo(outputTest);
     }

@@ -15,16 +15,23 @@ public interface ContactDAO {
     Contact getContactById(@Bind("id") int id);
 
     @GetGeneratedKeys
-    @SqlUpdate("insert into contact (firstname, lastname, phone) values (:firstname, :lastname, :phone)")
+    @SqlUpdate("insert into contact (firstname, lastname, phone, mail, comment) values" +
+            " (:firstname, :lastname, :phone, :mail, :comment)")
     int createContact(@Bind("firstname") String firstname,
-                      @Bind("lastname") String lastname,
-                      @Bind("phone") String phone);
+                        @Bind("lastname") String lastname,
+                        @Bind("phone") String phone,
+                        @Bind("mail") String mail,
+                        @Bind("comment") String comment);
 
-    @SqlUpdate("update contact set firstname = :firstname, lastname = :lastname, phone = :phone where id = :id")
+
+    @SqlUpdate("update contact set firstname = :firstname, lastname = :lastname, phone = :phone, " +
+            "mail = :mail, comment = :comment where id = :id")
     void updateContact(@Bind("id") int id,
-                       @Bind("firstname") String firstname,
-                       @Bind("lastname") String lastname,
-                       @Bind("phone") String phone);
+                        @Bind("firstname") String firstname,
+                        @Bind("lastname") String lastname,
+                        @Bind("phone") String phone,
+                        @Bind("mail") String mail,
+                        @Bind("comment") String comment);
 
     @SqlUpdate("delete from contact where id = :id")
     void deleteContact(@Bind("id") int id);

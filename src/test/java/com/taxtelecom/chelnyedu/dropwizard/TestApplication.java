@@ -18,7 +18,7 @@ public class TestApplication {
 
     private static final ContactDAO dao = mock(ContactDAO.class);
     private ContactResources resources = new ContactResources(dao, validator);
-    private Contact contact = new Contact(1, "John", "Doe", "+123456789");
+    private Contact contact = new Contact(1, "John", "Doe", "+123456789", "s@re.ru", "");
     private Response response;
 
     private static Validator validator = mock(Validator.class);
@@ -28,9 +28,9 @@ public class TestApplication {
         when(dao.getContactById(0)).thenReturn(contact);
         doNothing().when(dao).deleteContact(0);
         doNothing().when(dao).updateContact(contact.getId(), contact.getFirstName(),
-                contact.getLastName(), contact.getPhone());
+                contact.getLastName(), contact.getPhone(), contact.getMail(), contact.getComment());
         when(dao.createContact(contact.getFirstName(), contact.getLastName(),
-                contact.getPhone())).thenReturn(1);
+                contact.getPhone(), contact.getMail(), contact.getComment())).thenReturn(1);
     }
 
     @After
