@@ -11,6 +11,7 @@ public class ClientResources {
 	private ClientResponse response;
 	private WebResource contactResource;
 	private Client client;
+	String url = "http://localhost:8080/contact/";
 	public ClientResources(Client client) {
 		this.client = client;
 	}
@@ -20,7 +21,7 @@ public class ClientResources {
 	@GET
 	@Path("showContact")
 	public String showContact(@QueryParam("id") int id) {
-		contactResource = client.resource("http://localhost:8080/contact/"+id);
+		contactResource = client.resource(url+id);
 		Contact c = contactResource.get(Contact.class);
 		String output = "ID: " + id
 				+ "\nFirst name: " + c.getFirstName()
@@ -58,7 +59,7 @@ public class ClientResources {
 			@QueryParam("lastName") String lastName,
 			@QueryParam("phone") String phone,
             @QueryParam("mail") String mail, @QueryParam("comment") String comment) {
-		contactResource = client.resource("http://localhost:8080/contact/" + id);
+		contactResource = client.resource(url + id);
 		response = contactResource.type(MediaType.
 				APPLICATION_JSON).put(ClientResponse.class, new Contact(id,
 						firstName, lastName, phone, mail, comment ));
@@ -72,7 +73,7 @@ public class ClientResources {
 	@GET
 	@Path("deleteContact")
 	public Response deleteContact(@QueryParam("id") int id) {
-		contactResource = client.resource("http://localhost:8080/contact/" + id);
+		contactResource = client.resource(url + id);
 		contactResource.delete();
 		return Response.noContent().entity("Contact was deleted!").build();
 	}
