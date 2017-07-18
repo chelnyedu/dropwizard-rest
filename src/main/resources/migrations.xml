@@ -32,5 +32,11 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet id="3" author="me">
+        <addColumn tableName="contact">
+            <column name="mail" type="text"></column>
+            <column name="comment" type="text"></column>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

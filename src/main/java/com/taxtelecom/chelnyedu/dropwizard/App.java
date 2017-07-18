@@ -46,7 +46,7 @@ private static final org.slf4j.Logger logger = LoggerFactory.getLogger(App.class
         client.addFilter(new HTTPBasicAuthFilter("john_doe", "secret"));
         e.jersey().register(new ClientResources(client));
         CachingAuthenticator<BasicCredentials, Boolean> authenticator =
-        		new CachingAuthenticator<BasicCredentials, Boolean>(
+        		new CachingAuthenticator<>(
         				e.metrics(),
         				new PhonebookAuthenticator(jdbi.onDemand(UserDAO.class)),
         				CacheBuilderSpec.parse("maximumSize=10000, expireAfterAccess=10m"));

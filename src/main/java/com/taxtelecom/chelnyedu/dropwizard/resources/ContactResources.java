@@ -53,7 +53,8 @@ public class ContactResources {
         }
         else {
             int newContactId = contactDAO.createContact(contact.getFirstName(),
-                            contact.getLastName(), contact.getPhone());
+                    contact.getLastName(), contact.getPhone(),
+                    contact.getMail(), contact.getComment());
             return Response.created(new
                     URI(String.valueOf(newContactId))).build();
         }
@@ -86,11 +87,12 @@ public class ContactResources {
         }
         else {
             contactDAO.updateContact(id, contact.getFirstName(),
-                    contact.getLastName(), contact.getPhone());
+                    contact.getLastName(), contact.getPhone(),
+                    contact.getMail(), contact.getComment());
             return Response.ok(
                     new Contact(id, contact.getFirstName(),
-                            contact.getLastName(),
-                            contact.getPhone())).build();
+                            contact.getLastName(), contact.getPhone(),
+                            contact.getMail(), contact.getComment())).build();
         }
 
     }

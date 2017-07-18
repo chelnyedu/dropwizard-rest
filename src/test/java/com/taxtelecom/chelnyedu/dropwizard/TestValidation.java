@@ -27,7 +27,7 @@ public class TestValidation {
     public void validationContact() throws URISyntaxException {
         ValidatorFactory vf = Validation.buildDefaultValidatorFactory();
         Validator validator = vf.getValidator();
-        contact = new Contact(1, "John", "Doe", "+123456789");
+        contact = new Contact(1, "John", "Doe", "+123456789", "john@mail.ru", "norm");
         ContactResources res = new ContactResources(dao, validator);
         Response response = res.createContact(contact, true);
         assertThat(response.getStatus()).isEqualTo(400);
@@ -37,7 +37,7 @@ public class TestValidation {
 
     @Test
     public void badRequestTest() throws URISyntaxException {
-        contact = new Contact(1,"1","1","1");
+        contact = new Contact(1,"1","1","1","1","1");
         ValidatorFactory vf = Validation.buildDefaultValidatorFactory();
         Validator validator = vf.getValidator();
         ContactResources resources = new ContactResources(dao, validator);
