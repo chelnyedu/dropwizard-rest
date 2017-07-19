@@ -41,9 +41,8 @@ private static final org.slf4j.Logger logger = LoggerFactory.getLogger(App.class
         final DBIFactory factory = new DBIFactory();
         final DBI jdbi = factory.build(e,c.getDataSourceFactory(), "myPostgres");
         e.jersey().register(new ContactResources(jdbi.onDemand(ContactDAO.class), e.getValidator()));
-        
         final Client client = new JerseyClientBuilder(e).build("REST Client");
-        client.addFilter(new HTTPBasicAuthFilter("john_doe", "secret"));
+        client.addFilter(new HTTPBasicAuthFilter("wsuser", "wspassword"));
         e.jersey().register(new ClientResources(client));
         CachingAuthenticator<BasicCredentials, Boolean> authenticator =
         		new CachingAuthenticator<>(

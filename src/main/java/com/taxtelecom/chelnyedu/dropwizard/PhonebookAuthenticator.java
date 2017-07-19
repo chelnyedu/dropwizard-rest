@@ -6,10 +6,10 @@ import com.taxtelecom.chelnyedu.dropwizard.dao.UserDAO;
 import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.Authenticator;
 import io.dropwizard.auth.basic.BasicCredentials;
+import org.skife.jdbi.v2.DBI;
 
 public class PhonebookAuthenticator implements Authenticator<BasicCredentials, Boolean>{
-	
-	private final UserDAO userDao;
+    UserDAO userDao;
 	public PhonebookAuthenticator(UserDAO userDao) {
 		this.userDao = userDao;
 	}

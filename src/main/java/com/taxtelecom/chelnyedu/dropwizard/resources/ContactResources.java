@@ -6,6 +6,7 @@ import javax.ws.rs.core.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import com.taxtelecom.chelnyedu.dropwizard.dao.ContactDAO;
@@ -26,6 +27,13 @@ public class ContactResources {
     public ContactResources(ContactDAO dao, Validator validator){
         contactDAO = dao;
         this.validator = validator;
+    }
+
+    @GET
+    @Path("/all")
+    public Response getAllContact(){
+        List<Contact> list=contactDAO.getAllContact();
+        return Response.ok(list).build();
     }
 
     @GET
