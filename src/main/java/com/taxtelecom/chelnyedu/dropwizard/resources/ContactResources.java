@@ -11,9 +11,6 @@ import java.util.Set;
 
 import com.taxtelecom.chelnyedu.dropwizard.dao.ContactDAO;
 import com.taxtelecom.chelnyedu.dropwizard.representations.Contact;
-
-import io.dropwizard.auth.Auth;
-
 import javax.validation.Validator;
 
 
@@ -40,15 +37,14 @@ public class ContactResources {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getContact(@PathParam("id") int id,
-    		@Auth Boolean isAuthenticated){
+    public Response getContact(@PathParam("id") int id){
         Contact contact = contactDAO.getContactById(id);
         return Response.ok(contact).build();
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createContact(Contact contact, @Auth Boolean isAuthenticated)
+    public Response createContact(Contact contact)
     		throws URISyntaxException{
         Set<ConstraintViolation<Contact>> violations = validator.validate(contact);
 
@@ -75,7 +71,7 @@ public class ContactResources {
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteContact(@PathParam("id") int id, @Auth Boolean isAuthenticated){
+    public Response deleteContact(@PathParam("id") int id){
         contactDAO.deleteContact(id);
         return Response.noContent().build();
     }
@@ -83,8 +79,7 @@ public class ContactResources {
     @PUT
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateContact(@PathParam("id") int id, Contact contact,
-    		@Auth Boolean isAuthenticated){
+    public Response updateContact(@PathParam("id") int id, Contact contact){
         Set<ConstraintViolation<Contact>> violations = validator.validate(contact);
 
         if (!violations.isEmpty()) {

@@ -13,9 +13,6 @@ import io.dropwizard.migrations.MigrationsBundle;
 import org.skife.jdbi.v2.DBI;
 import org.slf4j.LoggerFactory;
 import io.dropwizard.Application;
-import io.dropwizard.auth.CachingAuthenticator;
-import io.dropwizard.auth.basic.BasicAuthProvider;
-import io.dropwizard.auth.basic.BasicCredentials;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.setup.Bootstrap;
@@ -44,13 +41,6 @@ private static final org.slf4j.Logger logger = LoggerFactory.getLogger(App.class
         final Client client = new JerseyClientBuilder(e).build("REST Client");
         client.addFilter(new HTTPBasicAuthFilter("wsuser", "wspassword"));
         e.jersey().register(new ClientResources(client));
-        CachingAuthenticator<BasicCredentials, Boolean> authenticator =
-        		new CachingAuthenticator<>(
-        				e.metrics(),
-        				new PhonebookAuthenticator(jdbi.onDemand(UserDAO.class)),
-        				CacheBuilderSpec.parse("maximumSize=10000, expireAfterAccess=10m"));
-        e.jersey().register(new BasicAuthProvider<Boolean>(
-        		authenticator, "Web Service Realm"));
     }
 
     public static void main( String[] args ) throws Exception

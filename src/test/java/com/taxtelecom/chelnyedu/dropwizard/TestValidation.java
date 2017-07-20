@@ -29,9 +29,9 @@ public class TestValidation {
         Validator validator = vf.getValidator();
         contact = new Contact(1, "John", "Doe", "+123456789", "john@mail.ru", "norm");
         ContactResources res = new ContactResources(dao, validator);
-        Response response = res.createContact(contact, true);
+        Response response = res.createContact(contact);
         assertThat(response.getStatus()).isEqualTo(400);
-        response = res.updateContact(1, contact, true);
+        response = res.updateContact(1, contact);
         assertThat(response.getStatus()).isEqualTo(400);
     }
 
@@ -41,9 +41,9 @@ public class TestValidation {
         ValidatorFactory vf = Validation.buildDefaultValidatorFactory();
         Validator validator = vf.getValidator();
         ContactResources resources = new ContactResources(dao, validator);
-        Response response = resources.createContact(contact, true);
+        Response response = resources.createContact(contact);
         assertThat(response.getStatus()).isEqualTo(400);
-        response = resources.updateContact(1, contact, true);
+        response = resources.updateContact(1, contact);
          assertThat(response.getStatus()).isEqualTo(400);
     }
 
