@@ -28,7 +28,6 @@ public class ContactResources {
 
     @GET
     @Path("/all")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getAllContact(){
         List<Contact> list=contactDAO.getAllContact();
         return Response.ok(list).build();
@@ -36,14 +35,12 @@ public class ContactResources {
 
     @GET
     @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getContact(@PathParam("id") int id){
         Contact contact = contactDAO.getContactById(id);
         return Response.ok(contact).build();
     }
 
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
     public Response createContact(Contact contact)
     		throws URISyntaxException{
         Set<ConstraintViolation<Contact>> violations = validator.validate(contact);
@@ -70,7 +67,6 @@ public class ContactResources {
 
     @DELETE
     @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response deleteContact(@PathParam("id") int id){
         contactDAO.deleteContact(id);
         return Response.noContent().build();
@@ -78,7 +74,6 @@ public class ContactResources {
 
     @PUT
     @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response updateContact(@PathParam("id") int id, Contact contact){
         Set<ConstraintViolation<Contact>> violations = validator.validate(contact);
 
