@@ -22,7 +22,6 @@ public class ClientResources {
 
 	@GET
 	@Path("showContact")
-    @Produces(MediaType.TEXT_PLAIN)
 	public String showContact(@QueryParam("id") int id) {
 
 		contactResource = client.resource(url + id);
@@ -36,7 +35,6 @@ public class ClientResources {
 	}
 	@GET
 	@Path("newContact")
-    @Produces(MediaType.TEXT_PLAIN)
 	public Response newContact(
 			@QueryParam("firstName")String firstName,
 			@QueryParam("lastName") String lastName,
@@ -58,7 +56,6 @@ public class ClientResources {
 	}
 	@GET
 	@Path("updateContact")
-    @Produces(MediaType.APPLICATION_JSON)
 	public Response updateContact(@QueryParam("id") int id,
 			@QueryParam("firstName") String firstName,
 			@QueryParam("lastName") String lastName,
@@ -79,7 +76,6 @@ public class ClientResources {
 
 	@GET
 	@Path("deleteContact")
-    @Produces(MediaType.APPLICATION_JSON)
 	public Response deleteContact(@QueryParam("id") int id) {
 		contactResource = client.resource(url + id);
 		contactResource.delete();
