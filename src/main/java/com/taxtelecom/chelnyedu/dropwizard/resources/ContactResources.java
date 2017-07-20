@@ -5,13 +5,11 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Set;
+import java.util.*;
 
 import com.taxtelecom.chelnyedu.dropwizard.dao.ContactDAO;
 import com.taxtelecom.chelnyedu.dropwizard.representations.Contact;
 
-import io.dropwizard.auth.Auth;
 
 import javax.validation.Validator;
 
@@ -29,15 +27,21 @@ public class ContactResources {
     }
 
     @GET
+    @Path("/all")
+    public Response getAllContact(){
+        List<Contact> list=contactDAO.getAllContact();
+        return Response.ok(list).build();
+    }
+
+    @GET
     @Path("/{id}")
-    public Response getContact(@PathParam("id") int id,
-    		@Auth Boolean isAuthenticated){
+    public Response getContact(@PathParam("id") int id){
         Contact contact = contactDAO.getContactById(id);
         return Response.ok(contact).build();
     }
 
     @POST
-    public Response createContact(Contact contact, @Auth Boolean isAuthenticated)
+    public Response createContact(Contact contact)
     		throws URISyntaxException{
         Set<ConstraintViolation<Contact>> violations = validator.validate(contact);
 
@@ -63,15 +67,14 @@ public class ContactResources {
 
     @DELETE
     @Path("/{id}")
-    public Response deleteContact(@PathParam("id") int id, @Auth Boolean isAuthenticated){
+    public Response deleteContact(@PathParam("id") int id){
         contactDAO.deleteContact(id);
         return Response.noContent().build();
     }
 
     @PUT
     @Path("/{id}")
-    public Response updateContact(@PathParam("id") int id, Contact contact,
-    		@Auth Boolean isAuthenticated){
+    public Response updateContact(@PathParam("id") int id, Contact contact){
         Set<ConstraintViolation<Contact>> violations = validator.validate(contact);
 
         if (!violations.isEmpty()) {

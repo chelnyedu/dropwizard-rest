@@ -40,25 +40,25 @@ public class TestApplication {
 
     @Test
     public void getContactTest() {
-        response = resources.getContact(1, true);
+        response = resources.getContact(1);
         assertThat(response.getStatus()).isEqualTo(200);
     }
 
     @Test
     public void createContactTest() throws URISyntaxException{
-        response = resources.createContact(contact, true);
+        response = resources.createContact(contact);
         assertThat(response.getStatus()).isEqualTo(201);
     }
 
     @Test
     public void deleteContactTest(){
-        response = resources.deleteContact(1, true);
+        response = resources.deleteContact(1);
         assertThat(response.getStatus()).isEqualTo(204);
     }
 
     @Test
     public void updateContactTest(){
-        response = resources.updateContact(1, contact, true);
+        response = resources.updateContact(1, contact);
         assertThat(response.getStatus()).isEqualTo(200);
     }
 

@@ -1,9 +1,17 @@
 package com.taxtelecom.chelnyedu.dropwizard.resources;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.*;
-import com.sun.jersey.api.client.*;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
 import com.taxtelecom.chelnyedu.dropwizard.representations.Contact;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Produces(MediaType.TEXT_PLAIN)
 @Path("/client/")
@@ -18,7 +26,16 @@ public class ClientResources {
 	public void setWebResource(WebResource contactResource) {
 		this.contactResource = contactResource;
 	}
-	@GET
+
+    @GET
+    @Path("all")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List showAllContact() {
+        contactResource = client.resource(url + "all");
+        return contactResource.get(List.class);
+    }
+
+    @GET
 	@Path("showContact")
 	public String showContact(@QueryParam("id") int id) {
 

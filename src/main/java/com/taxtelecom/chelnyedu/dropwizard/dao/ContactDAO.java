@@ -8,8 +8,14 @@ import org.skife.jdbi.v2.sqlobject.GetGeneratedKeys;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 import org.skife.jdbi.v2.sqlobject.customizers.Mapper;
+import java.util.List;
 
 public interface ContactDAO {
+
+    @Mapper(ContactMapper.class)
+    @SqlQuery("select * from contact")
+    List<Contact> getAllContact();
+
     @Mapper(ContactMapper.class)
     @SqlQuery("select * from contact where id = :id")
     Contact getContactById(@Bind("id") int id);
@@ -29,6 +35,7 @@ public interface ContactDAO {
                        @Bind("phone") String phone,
                        @Bind("mail") String mail,
                        @Bind("comment") String comment);
+
     @SqlUpdate("delete from contact where id = :id")
     void deleteContact(@Bind("id") int id);
 }
