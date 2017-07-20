@@ -4,6 +4,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import com.sun.jersey.api.client.*;
 import com.taxtelecom.chelnyedu.dropwizard.representations.Contact;
+import java.util.List;
 
 @Produces(MediaType.TEXT_PLAIN)
 @Path("/client/")
@@ -18,6 +19,7 @@ public class ClientResources {
 	public void setWebResource(WebResource contactResource) {
 		this.contactResource = contactResource;
 	}
+
 	@GET
 	@Path("showContact")
 	public String showContact(@QueryParam("id") int id) {
@@ -71,6 +73,7 @@ public class ClientResources {
 				getEntity(String.class)).build();
 		}
 	}
+
 	@GET
 	@Path("deleteContact")
 	public Response deleteContact(@QueryParam("id") int id) {
@@ -78,4 +81,13 @@ public class ClientResources {
 		contactResource.delete();
 		return Response.noContent().entity("Contact was deleted!").build();
 	}
+
+	@GET
+    @Path("showAllContact")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List showAllContact() {
+        contactResource = client.resource(url + "all");
+        return contactResource.get(List.class);
+
+    }
 }
