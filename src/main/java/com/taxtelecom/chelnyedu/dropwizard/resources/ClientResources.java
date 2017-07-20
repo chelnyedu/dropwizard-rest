@@ -5,6 +5,7 @@ import javax.ws.rs.core.*;
 import com.sun.jersey.api.client.*;
 import com.taxtelecom.chelnyedu.dropwizard.representations.Contact;
 
+import java.io.IOException;
 import java.util.List;
 
 @Produces(MediaType.TEXT_PLAIN)
@@ -90,17 +91,9 @@ public class ClientResources {
 	@GET
     @Path("showAllContact")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Contact> showAllContact() {
+    public List showAllContact() throws IOException {
         contactResource = client.resource(url + "all");
-        List<Contact> list;
-        list = contactResource.get(List.class);
-        Contact con = new Contact(1, "a","a","a", "a", "a");
-        list.add(con);
-        System.out.print("rere");
-        for (Contact i:list){
-            System.out.print(i.toString());
-        }
-        return list;
+        return contactResource.get(List.class);
 
     }
 }
