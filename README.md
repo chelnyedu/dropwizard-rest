@@ -3,7 +3,7 @@
 Запуск приложения.
 1. mvn package сборка приложения
 2. Перед запуском приложения создается переменная среды окружения "DATABASE_URL" вида
-> postgres://loginDB:passwordDB@addressDB:host/nameOfDB
+> postgres://usernabe:password@host:port/dbName
 
 * `username` - логин пользователя базы данных
 * `password` - пароль пользователя базы данных
