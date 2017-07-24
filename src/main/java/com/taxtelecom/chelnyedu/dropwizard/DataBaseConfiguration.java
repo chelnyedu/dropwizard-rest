@@ -7,7 +7,9 @@ import io.dropwizard.db.DatabaseConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+/**
+ * Generate database connection
+ */
 public class DataBaseConfiguration implements DatabaseConfiguration {
     static final Logger logger = LoggerFactory.getLogger(DataBaseConfiguration.class);
     private static DatabaseConfiguration dbConfiguration;

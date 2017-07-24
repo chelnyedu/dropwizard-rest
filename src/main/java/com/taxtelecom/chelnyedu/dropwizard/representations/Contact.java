@@ -4,6 +4,11 @@ import io.dropwizard.validation.ValidationMethod;
 import org.hibernate.validator.constraints.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Class for representation of contacts. It includes id, firstName,
+ * lastName, phone, mail, comment.
+ * Using JsonValidation
+ */
 public class Contact {
     @JsonProperty
     private final int id;

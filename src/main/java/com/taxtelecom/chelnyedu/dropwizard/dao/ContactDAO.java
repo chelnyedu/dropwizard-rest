@@ -11,6 +11,9 @@ import org.skife.jdbi.v2.sqlobject.customizers.Mapper;
 
 import java.util.List;
 
+/**
+ * Interface for database query in table contact
+ */
 public interface ContactDAO {
     @Mapper(ContactMapper.class)
     @SqlQuery("select * from contact")
