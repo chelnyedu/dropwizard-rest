@@ -13,7 +13,7 @@
 
 
 3. Запуск приложения в терминале
-> DATABASE_URL=postgres://loginDB:passwordDB@addressDB:host/nameOfDB  java -jar target/dropwizard-1.0-SNAPSHOT.jar server config.yaml
+> DATABASE_URL=postgres://usernabe:password@host:port/dbName  java -jar target/dropwizard-1.0-SNAPSHOT.jar server config.yaml
 
 где server - запуск сервера, config.yaml - конфигурационный файл.
 Так же перед первым запуском необходимл использование вместо аргумента server
