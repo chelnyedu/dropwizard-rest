@@ -14,6 +14,10 @@ import java.net.URISyntaxException;
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
+/**
+ * Mockito tests for CRUD  and list of contact
+ * Test for optionalMessage;
+ */
 public class TestApplication {
 
     private static final ContactDAO dao = mock(ContactDAO.class);

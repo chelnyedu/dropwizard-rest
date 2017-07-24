@@ -8,7 +8,12 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 import static io.dropwizard.testing.FixtureHelpers.fixture;
 
-
+/**
+ * Tests:
+ * for ContactMapper;
+ * serialize/deserialize JSON;
+ * for Contact.fetHashCode
+ */
 public class IntegrationTest {
     final ObjectMapper MAPPER = Jackson.newObjectMapper();
     private Contact contact = new Contact(1, "John", "Doe", "+123456789", "john@mail.ru", "norm");
