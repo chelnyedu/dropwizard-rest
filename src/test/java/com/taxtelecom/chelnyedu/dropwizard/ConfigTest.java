@@ -7,7 +7,9 @@ import org.junit.Test;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 public class ConfigTest {
-
+    /**
+     * Test for parser in DataSourceFactory
+     */
     @Test
     public void configTest() {
         DatabaseConfiguration dbConfig = DataBaseConfiguration.create("postgres://me:123456@localhost:5432/contact");

@@ -13,7 +13,9 @@ import com.taxtelecom.chelnyedu.dropwizard.dao.ContactDAO;
 import com.taxtelecom.chelnyedu.dropwizard.representations.Contact;
 import javax.validation.Validator;
 
-
+/**
+ * Web service client. CRUD of contact and list of contacts
+ */
 @Path("/contact")
 @Produces(MediaType.APPLICATION_JSON)
 public class ContactResources {

@@ -16,7 +16,9 @@ import javax.validation.ValidatorFactory;
 import javax.ws.rs.core.Response;
 
 /**
- * Created by user on 13.07.17.
+ * Test for validation.
+ * validationContact() - correct contact;
+ * badRequestTest() - incorrect contact.
  */
 public class TestValidation {
     private Contact contact;
