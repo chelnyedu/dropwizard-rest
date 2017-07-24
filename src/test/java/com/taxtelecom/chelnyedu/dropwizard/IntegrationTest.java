@@ -12,7 +12,7 @@ import static io.dropwizard.testing.FixtureHelpers.fixture;
  * Tests:
  * for ContactMapper;
  * serialize/deserialize JSON;
- * for Contact.fetHashCode
+ * for Contact.getHashCode().
  */
 public class IntegrationTest {
     final ObjectMapper MAPPER = Jackson.newObjectMapper();
